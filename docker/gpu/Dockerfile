@@ -18,6 +18,3 @@ RUN pip --no-cache-dir install \
 
 # Set up our notebook config.
 COPY jupyter_notebook_config.py /root/.jupyter/
-
-# Set the dark theme for jupyter lab.
-COPY themes.jupyterlab-settings /root/.jupyter/lab/user-settings/@jupyterlab/apputils-extension/
