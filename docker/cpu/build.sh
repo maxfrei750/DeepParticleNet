@@ -1,0 +1,1 @@
+docker build -t maxfrei750/deepparticlenet:cpu .
