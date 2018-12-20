@@ -18,3 +18,8 @@ RUN pip --no-cache-dir install \
 
 # Set up our notebook config.
 COPY jupyter_notebook_config.py /root/.jupyter/
+
+# Install Latex for greek symbols, etc. in graphs.
+RUN apt-get update && apt-get install -y --no-install-recommends \
+	texlive-latex-extra \
+	dvipng
