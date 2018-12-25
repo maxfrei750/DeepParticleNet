@@ -21,5 +21,6 @@ docker exec \
 # Open a terminal.
 docker exec \
 	--interactive \
+	--tty \
 	deepparticlenet \
 	bash
