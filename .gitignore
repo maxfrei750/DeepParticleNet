@@ -108,3 +108,5 @@ venv.bak/
 test/
 
 datasets/
+
+logs/
