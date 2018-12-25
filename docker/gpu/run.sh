@@ -9,6 +9,7 @@ nvidia-docker run \
 	--name deepparticlenet \
 	--network=host --env PASSWORD=$USER \
 	--volume "$basePath":/notebooks \
+	--volume $(readlink -f "$basePath"/datasets/):/notebooks/datasets/ \
 	maxfrei750/deepparticlenet:tf1.10.0-gpu-py3
 
 # Run tensorboard.
