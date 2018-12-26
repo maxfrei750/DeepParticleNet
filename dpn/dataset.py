@@ -9,7 +9,7 @@ from dpn.sizedistribution import SizeDistribution
 
 class Dataset(MrcnnDataset):
     # Allow the user to define a class for the dataset, if there is only one.
-    MONOCLASS = False  # e.g. MONOCLASS = 'sphere'
+    MONOCLASS = False  # e.g. MONOCLASS = "sphere"
 
     def load_dataset(self, dataset_dir, subset):
         """Load a subset of a particle dataset.
