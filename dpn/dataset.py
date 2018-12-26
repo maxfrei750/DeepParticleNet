@@ -8,6 +8,9 @@ from dpn.sizedistribution import SizeDistribution
 
 
 class Dataset(MrcnnDataset):
+    # Allow the user to define a class for the dataset, if there is only one.
+    MONOCLASS = False  # e.g. MONOCLASS = 'sphere'
+
     def load_dataset(self, dataset_dir, subset):
         """Load a subset of a particle dataset.
 
@@ -54,8 +57,13 @@ class Dataset(MrcnnDataset):
                 masks.append(m)
         masks = np.stack(masks, axis=-1)
 
-        # Get annotations.
-        annotations = self.get_annotations(image_id)
+        # Check if the dataset has only one class.
+        if self.MONOCLASS:
+            number_of_masks = masks.shape[2]
+            annotations = [self.MONOCLASS]*number_of_masks
+        else:
+            # Get annotations.
+            annotations = self.get_annotations(image_id)
 
         # Convert annotations to array of class IDs.
         class_id_array = self.map_classname_id(annotations)
