@@ -47,12 +47,12 @@ class Dataset(MrcnnDataset):
         mask_dir = os.path.join(os.path.dirname(os.path.dirname(info['path'])), "masks")
 
         # Read mask files from .png image
-        mask = []
+        masks = []
         for f in next(os.walk(mask_dir))[2]:
             if f.endswith(".png"):
                 m = skimage.io.imread(os.path.join(mask_dir, f)).astype(np.bool)
-                mask.append(m)
-        mask = np.stack(mask, axis=-1)
+                masks.append(m)
+        masks = np.stack(masks, axis=-1)
 
         # Get annotations.
         annotations = self.get_annotations(image_id)
@@ -61,7 +61,7 @@ class Dataset(MrcnnDataset):
         class_id_array = self.map_classname_id(annotations)
 
         # Return mask, and array of class IDs of each instance.
-        return mask, class_id_array
+        return masks, class_id_array
 
     def image_reference(self, image_id):
         """Return the path of the image."""
