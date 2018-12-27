@@ -4,13 +4,10 @@ import os
 
 
 class Config(MrcnnConfig):
-    # Image augmenter
+    CUSTOM_CALLBACKS = None
+    NO_AUGMENTATION_SOURCES = None
     AUGMENTATION = None
-
-    # Path to the dataset
     DATASET_PATH = ""
-
-    # Set number of classes
     NUM_CLASSES = 1 + 2  # Background + sphere + cube
 
     # Method to save the config.
