@@ -10,6 +10,9 @@ class Config(MrcnnConfig):
     # Path to the dataset
     DATASET_PATH = ""
 
+    # Set number of classes
+    NUM_CLASSES = 1 + 2  # Background + sphere + cube
+
     # Method to save the config.
     def save(self, directory):
         """Save Configuration values."""
