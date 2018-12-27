@@ -1,3 +1,6 @@
 [submodule "external/Mask_RCNN"]
 	path = external/Mask_RCNN
 	url = https://github.com/matterport/Mask_RCNN
+[submodule "external/CLR"]
+	path = external/CLR
+	url = git@github.com:bckenstler/CLR.git
