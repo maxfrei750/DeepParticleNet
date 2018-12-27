@@ -14,8 +14,10 @@ class Model(MaskRCNN):
         super(Model, self).train(dataset_train, dataset_val,
                                  learning_rate=self.config.LEARNING_RATE,
                                  epochs=self.config.EPOCHS,
+                                 layers=self.config.LAYERS,
                                  augmentation=self.config.AUGMENTATION,
-                                 layers=self.config.LAYERS)
+                                 custom_callbacks=self.config.CUSTOM_CALLBACKS,
+                                 no_augmentation_sources=self.config.NO_AUGMENTATION_SOURCES)
 
     def analyze_dataset(self, dataset, mode="mask"):
 
