@@ -21,6 +21,10 @@ class Config(MrcnnConfig):
             if not a.startswith("__") and not callable(getattr(self, a)):
                 attributes.append("{:30} {}".format(a, getattr(self, a)))
 
+        # Create directory if it does not exist yet.
+        if not os.path.exists(directory):
+            os.makedirs(directory)
+
         # Write attributes to text file.
         with open(os.path.join(directory, 'config.txt'), 'w') as hConfigFile_text:
             for listitem in attributes:
