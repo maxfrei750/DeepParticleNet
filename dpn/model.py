@@ -7,6 +7,9 @@ from dpn.utilities import *
 
 class Model(MaskRCNN):
     def train(self, dataset_train, dataset_val):
+        # Save config in the log dir.
+        self.config.save(self.log_dir)
+
         # Call the training method of the super class.
         super(Model, self).train(dataset_train, dataset_val,
                                  learning_rate=self.config.LEARNING_RATE,
