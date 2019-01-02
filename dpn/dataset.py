@@ -11,7 +11,7 @@ class Dataset(MrcnnDataset):
     # Allow the user to define a class for the dataset, if there is only one.
     MONOCLASS = False  # e.g. MONOCLASS = "sphere"
 
-    def load_dataset(self, dataset_dir, subset):
+    def load_dataset(self, dataset_dir, subset, limit=None):
         """Load a subset of a particle dataset.
 
         dataset_dir: Root directory of the dataset
@@ -32,11 +32,19 @@ class Dataset(MrcnnDataset):
         image_ids = next(os.walk(dataset_dir))[1]
 
         # Add images
+        image_counter = 0
+
         for image_id in image_ids:
             self.add_image(
                 "dataset",
                 image_id=image_id,
                 path=os.path.join(dataset_dir, image_id, "images", "{}.png".format(image_id)))
+
+            # Enforce the limit of the number of images.
+            if limit is not None:
+                image_counter += 1
+                if image_counter >= limit:
+                    break
 
     def load_mask(self, image_id):
         """Generate instance masks for an image.
