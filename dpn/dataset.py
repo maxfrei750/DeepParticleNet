@@ -111,8 +111,8 @@ class Dataset(MrcnnDataset):
 
         return annotations
 
-    def get_particlesizedistribution_gt(self, mode="mask"):
-        """Retrieve the PSD of the dataset, assuming spherical particles."""
+    def get_sizedistribution_gt(self, mode="mask"):
+        """Retrieve the sizedistribution of the dataset, assuming spherical objects."""
 
         mode = mode.lower()
 
