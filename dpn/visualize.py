@@ -1,5 +1,8 @@
 from mrcnn.visualize import *
 
+import matplotlib.pyplot as plt
+
+
 def display_image(image, title="", figsize=(16, 16), ax=None):
     """
     title: (optional) Figure title
@@ -23,3 +26,14 @@ def display_image(image, title="", figsize=(16, 16), ax=None):
     
     if auto_show:
         plt.show()
+
+
+def get_axis(rows=1, cols=1, size=32):
+    """Return a Matplotlib Axes array to be used in
+    all visualizations in the notebook. Provide a
+    central point to control graph sizes.
+
+    Adjust the size attribute to control how big to render images
+    """
+    _, ax = plt.subplots(rows, cols, figsize=(size * cols, size * rows))
+    return ax
