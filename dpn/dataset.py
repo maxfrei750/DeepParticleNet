@@ -3,6 +3,7 @@ import numpy as np
 import skimage
 
 from mrcnn.utils import Dataset as MrcnnDataset
+from mrcnn.utils import extract_bboxes
 from dpn.utilities import *
 from dpn.sizedistribution import SizeDistribution
 
@@ -137,7 +138,7 @@ class Dataset(MrcnnDataset):
                 diameters_new = calculate_equivalent_diameter(areas)
 
             else:  # elif mode == "bbox":
-                bboxes = mrcnn.utils.extract_bboxes(masks)
+                bboxes = extract_bboxes(masks)
 
                 # Keep only the largest bbox dimension.
                 diameters_new = get_largest_bbox_dimension(bboxes)
