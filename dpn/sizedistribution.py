@@ -26,19 +26,19 @@ class SizeDistribution(object):
         return self.sizes.size
 
     # Public methods
-    def concatenate(sizedistributions):
-        # Assert that all the PSDs have the same unit.
-        units = [psd.unit for psd in sizedistributions]
+    def concatenate(size_distributions):
+        # Assert that all the size distributions have the same unit.
+        units = [size_distribution.unit for size_distribution in size_distributions]
         assert all(x == units[0] for x in units), "You cannot concatenate PSDs with different units."
 
         # Extract the diameter arrays.
         size_arrays = [psd.diameters for psd in size_distributions]
 
-        psd_new = SizeDistribution(units[0])
+        size_distribution_new = SizeDistribution(units[0])
 
-        psd_new.sizes = np.concatenate(size_arrays)
+        size_distribution_new.sizes = np.concatenate(size_arrays)
 
-        return psd_new
+        return size_distribution_new
 
     def to_meter(self, scalingfactor_meterperpixel):
         self.sizes = self.sizes * scalingfactor_meterperpixel
