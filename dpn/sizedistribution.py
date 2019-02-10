@@ -36,7 +36,7 @@ class SizeDistribution(object):
 
         psd_new = SizeDistribution(units[0])
 
-        psd_new.diameters = np.concatenate(diameter_arrays)
+        psd_new.sizes = np.concatenate(size_arrays)
 
         return psd_new
 
