@@ -44,10 +44,6 @@ class SizeDistribution(object):
         self.sizes = self.sizes * scalingfactor_meterperpixel
         self.unit = "m"
 
-        return self
-
     def to_pixel(self, scalingfactor_meterperpixel):
         self.sizes = self.sizes / scalingfactor_meterperpixel
         self.unit = "px"
-
-        return self
