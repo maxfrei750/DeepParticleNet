@@ -3,7 +3,7 @@ import scipy
 
 
 class SizeDistribution(object):
-    diameters = np.uint32([])
+    sizes = np.uint32([])
 
     def __init__(self, unit):
         unit = unit.lower()
@@ -15,15 +15,15 @@ class SizeDistribution(object):
     # Dependant attributes
     @property
     def geometric_mean(self):
-        return scipy.stats.mstats.gmean(self.diameters)
+        return scipy.stats.mstats.gmean(self.sizes)
 
     @property
     def geometric_standard_deviation(self):
-        return np.exp(np.std(np.log(self.diameters)))
+        return np.exp(np.std(np.log(self.sizes)))
 
     @property
     def number_of_particles(self):
-        return self.diameters.size
+        return self.sizes.size
 
     # Public methods
     def concatenate(sizedistributions):
@@ -32,7 +32,7 @@ class SizeDistribution(object):
         assert all(x == units[0] for x in units), "You cannot concatenate PSDs with different units."
 
         # Extract the diameter arrays.
-        diameter_arrays = [psd.diameters for psd in sizedistributions]
+        size_arrays = [psd.diameters for psd in size_distributions]
 
         psd_new = SizeDistribution(units[0])
 
@@ -41,13 +41,13 @@ class SizeDistribution(object):
         return psd_new
 
     def to_meter(self, scalingfactor_meterperpixel):
-        self.diameters = self.diameters * scalingfactor_meterperpixel
+        self.sizes = self.sizes * scalingfactor_meterperpixel
         self.unit = "m"
 
         return self
 
     def to_pixel(self, scalingfactor_meterperpixel):
-        self.diameters = self.diameters / scalingfactor_meterperpixel
+        self.sizes = self.sizes / scalingfactor_meterperpixel
         self.unit = "px"
 
         return self
