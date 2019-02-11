@@ -25,5 +25,8 @@ def get_major_bbox_side_length(bboxes):
 
 def calculate_equivalent_diameter(areas):
     """Function to calculate the set of equivalent diameters of a set of areas."""
+
+    areas = np.asarray(areas)
+
     diameters = np.sqrt(4 * areas / np.pi)
-    return diameters
+    return diameters.tolist()
