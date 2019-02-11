@@ -4,8 +4,7 @@ import skimage
 
 from mrcnn.utils import Dataset as MrcnnDataset
 from mrcnn.utils import extract_bboxes
-from dpn.utilities import *
-from dpn.sizedistribution import SizeDistribution
+from dpn.results import Results
 
 
 class Dataset(MrcnnDataset):
@@ -112,42 +111,38 @@ class Dataset(MrcnnDataset):
 
         return annotations
 
-    def get_sizedistribution_gt(self, mode="mask"):
-        """Retrieve the sizedistribution of the dataset, assuming spherical objects."""
+    def get_ground_truth(self):
+        """Retrieve the ground truth of the dataset."""
 
-        mode = mode.lower()
-
-        # Check inputs.
-        assert mode in ["mask", "bbox"], "Expected mode to be \"mask\" or \"bbox\"."
-
-        # Initialize areas array.
-        diameters = np.uint32([])
+        # Create a Results-object.
+        ground_truth = Results()
 
         # Iterate all images
         for image_id in self.image_ids:
 
             # Load the masks of the current image.
-            (masks, _) = self.load_mask(image_id)
+            (new_masks, _) = self.load_mask(image_id)
 
-            if mode == "mask":
+            # Extract bboxes.
+            new_bboxes = extract_bboxes(new_masks)
 
-                # Calculate areas as the sum of the pixels of the masks.
-                areas = masks.sum(axis=(0, 1))
+            # Convert bboxes to list.
+            new_bboxes = new_bboxes.tolist()
 
-                # Calculate new diameters
-                diameters_new = calculate_equivalent_diameter(areas)
+            # Get number of instances
+            number_of_new_instances = len(new_bboxes)
 
-            else:  # elif mode == "bbox":
-                bboxes = extract_bboxes(masks)
+            # Convert masks to list of masks.
+            new_masks = np.split(new_masks, number_of_new_instances, axis=2)
+            new_masks = [np.squeeze(new_mask) for new_mask in new_masks]
 
-                # Keep only the largest bbox dimension.
-                diameters_new = get_largest_bbox_dimension(bboxes)
+            # Create a scores list.
+            new_scores = [1] * number_of_new_instances
 
-            # Concatenate diameters_new to the diameters array.
-            diameters = np.concatenate((diameters, diameters_new))
+            # Create a class_id list.
+            new_class_ids = [1] * number_of_new_instances
 
-        # Create and return a SizeDistribution-object.
-        psd = SizeDistribution("px")
-        psd.diameters = diameters
+            # Append result to the Results-object.
+            ground_truth.append_raw(new_masks, new_bboxes, new_scores, new_class_ids)
 
-        return psd
+        return ground_truth
