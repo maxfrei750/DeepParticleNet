@@ -110,6 +110,6 @@ class Results:
 
         # Create and return a SizeDistribution-object.
         size_distribution = SizeDistribution("px")
-        size_distribution.sizes = measurements
+        size_distribution.sizes = np.asarray(measurements)
 
         return size_distribution
