@@ -26,7 +26,7 @@ class Model(MaskRCNN):
             image = dataset.load_image(image_id)
 
             # Perform detection.
-            new_results_dict = self.detect(image)
+            new_results_dict = self.detect([image])
 
             # Append results.
             results.append_from_dicts(new_results_dict)
