@@ -23,7 +23,7 @@ class SizeDistribution(object):
 
     @property
     def number_of_particles(self):
-        return self.sizes.size
+        return len(self.sizes)
 
     # Public methods
     def concatenate(size_distributions):
