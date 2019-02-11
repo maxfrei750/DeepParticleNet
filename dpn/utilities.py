@@ -1,7 +1,7 @@
 import numpy as np
 
 
-def get_largest_bbox_dimension(bboxes):
+def get_major_bbox_side_length(bboxes):
     """Function to extract the largest dimensions of each bounding box of a set of bounding boxes."""
     y1 = bboxes[:, 0]
     x1 = bboxes[:, 1]
@@ -13,11 +13,11 @@ def get_largest_bbox_dimension(bboxes):
 
     # Keep largest dimensions of each bbox as diameter.
     number_of_bboxes = widths.size
-    largest_dimension = np.zeros(number_of_bboxes)
-    largest_dimension[widths >= heights] = widths[widths >= heights]
-    largest_dimension[heights >= widths] = heights[heights >= widths]
+    major_bbox_side_length = np.zeros(number_of_bboxes)
+    major_bbox_side_length[widths >= heights] = widths[widths >= heights]
+    major_bbox_side_length[heights >= widths] = heights[heights >= widths]
 
-    return largest_dimension
+    return major_bbox_side_length
 
 
 def calculate_equivalent_diameter(areas):
