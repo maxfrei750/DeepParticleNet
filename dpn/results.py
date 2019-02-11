@@ -56,7 +56,7 @@ class Results:
             self.masks += new_masks
             self.class_ids += new_class_ids
             self.bboxes += new_bboxes
-            self.masks += new_scores
+            self.scores += new_scores
 
     def filter_by_list(self, do_keep):
         self.masks = list(compress(self.masks, do_keep))
