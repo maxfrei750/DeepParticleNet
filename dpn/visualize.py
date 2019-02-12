@@ -1,3 +1,4 @@
+import numpy as np
 from mrcnn.visualize import *
 import matplotlib.pyplot as plt
 from matplotlib.patches import Polygon
@@ -10,7 +11,7 @@ def display_image(image, title="", figsize=(16, 16), ax=None):
     title: (optional) Figure title
     figsize: (optional) the size of the image
     """
-    
+
     # If no axis is passed, create one and automatically call show()
     auto_show = False
     if not ax:
@@ -25,7 +26,7 @@ def display_image(image, title="", figsize=(16, 16), ax=None):
     ax.set_title(title)
 
     ax.imshow(image.astype(np.uint8))
-    
+
     if auto_show:
         plt.show()
 
@@ -101,3 +102,36 @@ def display_instance_outlines(image, masks,
     ax.imshow(masked_image.astype(np.uint8))
     if auto_show:
         plt.show()
+
+
+def plot_size_distributions(sizedistributions, captions,
+                            plot_density=True,
+                            bins=np.logspace(np.log10(10), np.log10(150), 15)):
+    for sizedistribution, caption in zip(sizedistributions, captions):
+        d_g = sizedistribution.geometric_mean
+        s_g = sizedistribution.geometric_standard_deviation
+        N = sizedistribution.number_of_particles
+
+        legend_string = caption + "\n$d_g = {:.0f}\mathrm{{px}}$; $\sigma_g = {:.2f}$; $N = {:d}$".format(d_g, s_g, N)
+
+        plt.hist(sizedistribution.sizes,
+                 bins=bins,
+                 density=plot_density,
+                 label=legend_string,
+                 alpha=0.5,
+                 fill=True,
+                 histtype='step')
+
+    plt.grid(True)
+    plt.legend(loc="upper left")
+    ax = plt.gca()
+    ax.set_xscale("log", nonposx="clip")
+    plt.xlabel("Diameter [px]")
+
+    if plot_density:
+        plt.ylabel("Probability Density [a.u.]")
+    else:
+        plt.ylabel("Count [#]")
+
+    plt.tight_layout()
+    plt.show()
