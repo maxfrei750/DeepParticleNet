@@ -3,9 +3,8 @@ import scipy
 
 
 class SizeDistribution(object):
-    sizes = np.uint32([])
-
     def __init__(self, unit):
+        self.sizes = np.uint32([])
         unit = unit.lower()
 
         # Check input.
