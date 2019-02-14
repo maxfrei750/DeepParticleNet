@@ -7,12 +7,12 @@ from skimage.segmentation import clear_border
 
 
 class Results:
-    masks = list()
-    class_ids = list()
-    bboxes = list()
-    scores = list()
-
     def __init__(self, results_dict_list=None):
+        self.masks = list()
+        self.class_ids = list()
+        self.bboxes = list()
+        self.scores = list()
+
         if results_dict_list is not None:
             self.append_from_dicts(results_dict_list)
 
