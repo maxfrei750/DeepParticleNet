@@ -28,7 +28,7 @@ class SizeDistribution(object):
     def concatenate(size_distributions):
         # Assert that all the size distributions have the same unit.
         units = [size_distribution.unit for size_distribution in size_distributions]
-        assert all(x == units[0] for x in units), "You cannot concatenate PSDs with different units."
+        assert all(x == units[0] for x in units), "You cannot concatenate sizedistributions with different units."
 
         # Extract the diameter arrays.
         size_arrays = [psd.diameters for psd in size_distributions]
