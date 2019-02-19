@@ -48,7 +48,7 @@ class SizeDistribution(Storable):
         self.sizes = self.sizes / scalingfactor_meterperpixel
         self.unit = "px"
 
-    def compare(self, ground_truth, return_errors=False):
+    def compare(self, ground_truth, do_return_errors=False):
         # Assert that the size distributions have the same unit.
         assert self.unit == ground_truth.unit, "You cannot concatenate sizedistributions with different units."
 
@@ -76,5 +76,5 @@ class SizeDistribution(Storable):
         print("N_gt = {:.0f}".format(N_gt))
         print("error_N = {:.3f}".format(error_N))
 
-        if return_errors:
+        if do_return_errors:
             return error_d_g, error_s_g, error_N
