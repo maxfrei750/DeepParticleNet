@@ -39,4 +39,4 @@ class Config(MrcnnConfig, Storable):
         """Load Configuration values."""
 
         # Load pickled config.
-        return super().load(os.path.join(directory, "config.pkl"))
+        return super(Config, Config).load(os.path.join(directory, "config.pkl"))
