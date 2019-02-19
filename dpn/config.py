@@ -1,9 +1,9 @@
 from mrcnn.config import Config as MrcnnConfig
-import dill
+from dpn.storable import Storable
 import os
 
 
-class Config(MrcnnConfig):
+class Config(MrcnnConfig, Storable):
     CUSTOM_CALLBACKS = None
     NO_AUGMENTATION_SOURCES = None
     AUGMENTATION = None
@@ -31,16 +31,12 @@ class Config(MrcnnConfig):
                 hConfigFile_text.write('%s\n' % listitem)
 
         # Pickle config.
-        with open(os.path.join(directory, 'config.pkl'), 'wb') as hConfigFile_pickle:
-            dill.dump(self, hConfigFile_pickle)
+        super().save(os.path.join(directory, "config.pkl"))
 
     # Method to load a config.
     @staticmethod
     def load(directory):
         """Load Configuration values."""
 
-        # Pickle config.
-        with open(os.path.join(directory, 'config.pkl'), 'rb') as hConfigFile_pickle:
-            pickeled_config = dill.load(hConfigFile_pickle)
-
-        return pickeled_config
+        # Load pickled config.
+        return super().load(os.path.join(directory, "config.pkl"))
