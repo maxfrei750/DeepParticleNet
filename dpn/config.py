@@ -1,6 +1,7 @@
 from mrcnn.config import Config as MrcnnConfig
 from dpn.storable import Storable
 import os
+import pathlib
 
 
 class Config(MrcnnConfig, Storable):
@@ -22,13 +23,12 @@ class Config(MrcnnConfig, Storable):
                 attributes.append("{:30} {}".format(a, getattr(self, a)))
 
         # Create directory if it does not exist yet.
-        if not os.path.exists(directory):
-            os.makedirs(directory)
+        pathlib.Path(directory).mkdir(parents=True, exist_ok=True)
 
         # Write attributes to text file.
-        with open(os.path.join(directory, 'config.txt'), 'w') as hConfigFile_text:
-            for listitem in attributes:
-                hConfigFile_text.write('%s\n' % listitem)
+        with open(os.path.join(directory, "config.txt"), "w") as file:
+            for attribute in attributes:
+                file.write("{}\n".format(attribute))
 
         # Pickle config.
         super().save(os.path.join(directory, "config.pkl"))
