@@ -1,8 +1,9 @@
 import numpy as np
 import scipy
+from dpn.storable import Storable
 
 
-class SizeDistribution(object):
+class SizeDistribution(Storable):
     def __init__(self, unit):
         self.sizes = np.uint32([])
         unit = unit.lower()
@@ -24,7 +25,7 @@ class SizeDistribution(object):
     def number_of_particles(self):
         return len(self.sizes)
 
-    # Public methods
+    # Methods
     def concatenate(size_distributions):
         # Assert that all the size distributions have the same unit.
         units = [size_distribution.unit for size_distribution in size_distributions]
