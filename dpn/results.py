@@ -4,9 +4,10 @@ from itertools import compress
 import numpy as np
 from skimage.measure import regionprops
 from skimage.segmentation import clear_border
+from dpn.storable import Storable
 
 
-class Results:
+class Results(Storable):
     def __init__(self, results_dict_list=None):
         self.masks = list()
         self.class_ids = list()
