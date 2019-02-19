@@ -20,7 +20,7 @@ class Model(MaskRCNN):
 
     def detect(self, image, verbose=0):
         # Call the training method of the super class.
-        results_dict_list = super(Model, self).detect([image], verbose=verbose)
+        results_dict_list = super().detect([image], verbose=verbose)
         results_dict = results_dict_list[0]
 
         # Extract properties from results_dict.
