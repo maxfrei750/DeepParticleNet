@@ -49,12 +49,12 @@ def display_instance_outlines(image, masks,
                               linestyle="-",
                               dpi=300):
     """
-    masks: [height, width, num_instances]
+    masks: List of masks
     figsize: (optional) the size of the image
     colors: (optional) An array or colors to use with each object
     """
     # Number of instances
-    N = masks.shape[2]
+    N = len(masks)
     if not N:
         print("\n*** No instances to display *** \n")
 
@@ -77,7 +77,7 @@ def display_instance_outlines(image, masks,
         color = colors[i]
 
         # Mask
-        mask = masks[:, :, i]
+        mask = masks[i]
 
         mask = binary_fill_holes(mask)
 
