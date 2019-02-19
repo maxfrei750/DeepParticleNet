@@ -133,6 +133,8 @@ def plot_size_distributions(sizedistributions, captions,
     ax.set_position([0, 0, 1, 1])
     plt.xlabel("Diameter [px]")
 
+    plt.xlim(left=0)
+
     if density:
         plt.ylabel("Probability Density [a.u.]")
     else:
