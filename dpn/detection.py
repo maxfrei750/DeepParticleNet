@@ -57,3 +57,9 @@ class Detection:
         # Remove instances with a class other than the given class.
         do_keep = [class_id is class_id_to_keep for class_id in self.class_ids]
         self.filter_by_list(do_keep)
+
+    def filter_by_area(self, minimum_area):
+        # Remove instances with areas smaller than the given minimum area.
+        areas = [np.sum(mask) for mask in self.masks]
+        do_keep = [area >= minimum_area for area in areas]
+        self.filter_by_list(do_keep)
