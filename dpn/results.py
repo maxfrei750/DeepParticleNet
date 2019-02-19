@@ -1,85 +1,80 @@
 from dpn.sizedistribution import SizeDistribution
 from dpn.utilities import calculate_equivalent_diameter, get_major_bbox_side_length
-from itertools import compress
 import numpy as np
 from skimage.measure import regionprops
-from skimage.segmentation import clear_border
+import os
 from dpn.storable import Storable
 
 
 class Results(Storable):
-    def __init__(self, results_dict_list=None):
-        self.masks = list()
-        self.class_ids = list()
-        self.bboxes = list()
-        self.scores = list()
+    def __init__(self, detection=None):
+        self.detections = list()
 
-        if results_dict_list is not None:
-            self.append_from_dicts(results_dict_list)
+        if detection is not None:
+            self.append_detection(detection)
 
-    def __add__(self, other):
-        self.masks += other.masks
-        self.class_ids += other.class_ids
-        self.bboxes += other.bboxes
-        self.scores += other.scores
+    # Dependant attributes
+    @property
+    def masks(self):
+        all_masks = list()
+        for detection in self.detections:
+            all_masks += detection.masks
+        return all_masks
 
-    def append_raw(self, masks, bboxes, scores, class_ids):
-        self.masks += masks
-        self.class_ids += class_ids
-        self.bboxes += bboxes
-        self.scores += scores
+    @property
+    def images(self):
+        all_images = list()
+        for detection in self.detections:
+            all_images += detection.images
+        return all_images
 
-    def append_from_dicts(self, results_dict_list):
-        for results_dict in results_dict_list:
-            # Extract values results from dict.
-            new_masks = results_dict["masks"]
-            new_class_ids = results_dict["class_ids"]
-            new_bboxes = results_dict["rois"]
-            new_scores = results_dict["scores"]
+    @property
+    def bboxes(self):
+        all_bboxes = list()
+        for detection in self.detections:
+            all_bboxes += detection.bboxes
+        return all_bboxes
 
-            # Convert class_ids to list.
-            new_class_ids = new_class_ids.tolist()
+    @property
+    def class_ids(self):
+        class_ids = list()
+        for detection in self.detections:
+            class_ids += detection.class_ids
+        return class_ids
 
-            # Convert bboxes to list.
-            new_bboxes = new_bboxes.tolist()
+    @property
+    def scores(self):
+        all_scores = list()
+        for detection in self.detections:
+            all_scores += detection.scores
+        return all_scores
 
-            # Convert scores to list.
-            new_scores = new_scores.tolist()
+    @property
+    def number_of_detections(self):
+        return len(self.detections)
 
-            # Get number of instances
-            number_of_new_instances = len(new_class_ids)
+    @property
+    def detection_ids(self):
+        return range(self.number_of_detections-1)
 
-            # Convert masks to list of masks.
-            new_masks = np.split(new_masks, number_of_new_instances, axis=2)
-            new_masks = [np.squeeze(new_mask) for new_mask in new_masks]
-
-            # Append new results.
-            self.masks += new_masks
-            self.class_ids += new_class_ids
-            self.bboxes += new_bboxes
-            self.scores += new_scores
-
-    def filter_by_list(self, do_keep):
-        self.masks = list(compress(self.masks, do_keep))
-        self.class_ids = list(compress(self.class_ids, do_keep))
-        self.bboxes = list(compress(self.bboxes, do_keep))
-        self.scores = list(compress(self.scores, do_keep))
+    # Methods
+    def append_detection(self, detection):
+        self.detections += [detection]
 
     def filter_by_score(self, minimum_score):
-        # Remove instances with scores smaller then the given minimum score.
-        do_keep = [score >= minimum_score for score in self.scores]
-        self.filter_by_list(do_keep)
+        # Remove instances with a score below a certain threshold.
+        for detection in self.detections:
+            detection.filter_by_score(minimum_score)
 
     def filter_by_class(self, class_id_to_keep):
         # Remove instances with a class other than the given class.
-        do_keep = [class_id is class_id_to_keep for class_id in self.class_ids]
-        self.filter_by_list(do_keep)
+        for detection in self.detections:
+            detection.filter_by_class(class_id_to_keep)
 
     def clear_border_objects(self):
         # Remove instances that touch the border of the image.
-        cleared_masks = [clear_border(mask) for mask in self.masks]
-        do_keep = [np.any(cleared_mask) for cleared_mask in cleared_masks]
-        self.filter_by_list(do_keep)
+        for detection in self.detections:
+            detection.clear_border_objects()
 
     def to_size_distribution(self, measurand):
         # Return a size distribution based on a certain measurand.
