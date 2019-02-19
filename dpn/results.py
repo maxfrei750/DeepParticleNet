@@ -109,3 +109,15 @@ class Results(Storable):
         size_distribution.sizes = np.asarray(measurements)
 
         return size_distribution
+
+    def display_detection_image(self, detection_id):
+        self.detections[detection_id].display_detection_image()
+
+    def save_detection_image(self, detection_id, output_path, do_display_detections=False):
+        self.detections[detection_id].save_detection_image(output_path, do_display_detections=do_display_detections)
+
+    def save_all_detection_images(self, output_folder, filename_prefix="", filetype="png", do_display_detections=False):
+        for detection_id in self.detection_ids:
+            filename = filename_prefix+"_detection_{:d}.".format(detection_id)+filetype
+            output_path = os.path.join(output_folder, filename)
+            self.detections[detection_id].save_detection_image(output_path, do_display_detections=do_display_detections)
