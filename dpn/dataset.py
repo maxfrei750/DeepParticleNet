@@ -5,6 +5,7 @@ import skimage
 from mrcnn.utils import Dataset as MrcnnDataset
 from mrcnn.utils import extract_bboxes
 from dpn.results import Results
+from dpn.detection import Detection
 
 
 class Dataset(MrcnnDataset):
@@ -119,30 +120,35 @@ class Dataset(MrcnnDataset):
 
         # Iterate all images
         for image_id in self.image_ids:
+            # Load image.
+            image = self.load_image(image_id)
 
             # Load the masks of the current image.
-            (new_masks, _) = self.load_mask(image_id)
+            (masks, class_ids) = self.load_mask(image_id)
 
             # Extract bboxes.
-            new_bboxes = extract_bboxes(new_masks)
-
-            # Convert bboxes to list.
-            new_bboxes = new_bboxes.tolist()
+            bboxes = extract_bboxes(masks)
 
             # Get number of instances
-            number_of_new_instances = len(new_bboxes)
+            number_of_instances = len(bboxes)
 
             # Convert masks to list of masks.
-            new_masks = np.split(new_masks, number_of_new_instances, axis=2)
-            new_masks = [np.squeeze(new_mask) for new_mask in new_masks]
+            masks = np.split(masks, number_of_instances, axis=2)
+            masks = [np.squeeze(mask) for mask in masks]
+
+            # Convert class_ids to list.
+            class_ids = class_ids.tolist()
+
+            # Convert bboxes to list.
+            bboxes = bboxes.tolist()
 
             # Create a scores list.
-            new_scores = [1] * number_of_new_instances
+            scores = [1] * number_of_instances
 
-            # Create a class_id list.
-            new_class_ids = [1] * number_of_new_instances
+            # Store new data in a detection object.
+            detection = Detection(image, masks, class_ids, bboxes, scores)
 
             # Append result to the Results-object.
-            ground_truth.append_raw(new_masks, new_bboxes, new_scores, new_class_ids)
+            ground_truth.append_detection(detection)
 
         return ground_truth
