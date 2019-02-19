@@ -10,13 +10,13 @@ class Model(MaskRCNN):
         self.config.save(self.log_dir)
 
         # Call the training method of the super class.
-        super(Model, self).train(dataset_train, dataset_val,
-                                 learning_rate=self.config.LEARNING_RATE,
-                                 epochs=self.config.EPOCHS,
-                                 layers=self.config.LAYERS,
-                                 augmentation=self.config.AUGMENTATION,
-                                 custom_callbacks=self.config.CUSTOM_CALLBACKS,
-                                 no_augmentation_sources=self.config.NO_AUGMENTATION_SOURCES)
+        super().train(dataset_train, dataset_val,
+                      learning_rate=self.config.LEARNING_RATE,
+                      epochs=self.config.EPOCHS,
+                      layers=self.config.LAYERS,
+                      augmentation=self.config.AUGMENTATION,
+                      custom_callbacks=self.config.CUSTOM_CALLBACKS,
+                      no_augmentation_sources=self.config.NO_AUGMENTATION_SOURCES)
 
     def detect(self, image, verbose=0):
         # Call the training method of the super class.
