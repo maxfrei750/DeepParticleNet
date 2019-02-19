@@ -48,7 +48,7 @@ class SizeDistribution(Storable):
         self.sizes = self.sizes / scalingfactor_meterperpixel
         self.unit = "px"
 
-    def compare(self, ground_truth, do_return_errors=False):
+    def compare(self, ground_truth, do_return_errors=False, do_print_output=True):
         # Assert that the size distributions have the same unit.
         assert self.unit == ground_truth.unit, "You cannot concatenate sizedistributions with different units."
 
@@ -64,17 +64,18 @@ class SizeDistribution(Storable):
         error_s_g = s_g / s_g_gt
         error_N = N / N_gt
 
-        print("d_g = {:.0f}".format(d_g))
-        print("d_g_gt = {:.1f}".format(d_g_gt))
-        print("error_d_g = {:.3f}".format(error_d_g))
-        print("\n")
-        print("s_g = {:.2f}".format(s_g))
-        print("s_g_gt = {:.2f}".format(s_g_gt))
-        print("error_s_g = {:.3f}".format(error_s_g))
-        print("\n")
-        print("N = {:.0f}".format(N))
-        print("N_gt = {:.0f}".format(N_gt))
-        print("error_N = {:.3f}".format(error_N))
+        if do_print_output:
+            print("d_g = {:.0f}".format(d_g))
+            print("d_g_gt = {:.1f}".format(d_g_gt))
+            print("error_d_g = {:.3f}".format(error_d_g))
+            print("\n")
+            print("s_g = {:.2f}".format(s_g))
+            print("s_g_gt = {:.2f}".format(s_g_gt))
+            print("error_s_g = {:.3f}".format(error_s_g))
+            print("\n")
+            print("N = {:.0f}".format(N))
+            print("N_gt = {:.0f}".format(N_gt))
+            print("error_N = {:.3f}".format(error_N))
 
         if do_return_errors:
             return error_d_g, error_s_g, error_N
