@@ -19,6 +19,10 @@ class Detection:
     def areas(self):
         return [np.sum(mask) for mask in self.masks]
 
+    @property
+    def perimeters(self):
+        return [perimeter(mask) for mask in self.masks]
+
     # Methods
     def display_detection_image(self,
                                 do_return_figure_handle=False,
@@ -71,10 +75,4 @@ class Detection:
     def filter_by_maximum_area(self, maximum_area):
         # Remove instances with areas larger than the given maximum area.
         do_keep = [area <= maximum_area for area in self.areas]
-        self.filter_by_list(do_keep)
-
-    def filter_by_minimum_circularity(self, minimum_circularity):
-        # Remove instances with circularities smaller than the given minimum circularity.
-        areas = [np.sum(mask) for mask in self.masks]
-        do_keep = [area <= maximum_area for area in areas]
         self.filter_by_list(do_keep)
