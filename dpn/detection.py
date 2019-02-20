@@ -2,8 +2,6 @@ from dpn.visualize import display_instance_outlines
 import numpy as np
 from itertools import compress
 from skimage.segmentation import clear_border
-import os
-import pathlib
 import matplotlib.pyplot as plt
 
 
