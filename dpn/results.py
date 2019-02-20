@@ -61,35 +61,35 @@ class Results(Storable):
     def append_detection(self, detection):
         self.detections += [detection]
 
-    def filter_by_minimum_score(self, minimum_score):
+    def filter_by_minimum_score(self, minimum_score, verbose=False):
         # Remove instances with a score below a certain threshold.
         for detection in self.detections:
-            detection.filter_by_minimum_score(minimum_score)
+            detection.filter_by_minimum_score(minimum_score, verbose=verbose)
 
-    def filter_by_class(self, class_id_to_keep):
+    def filter_by_class(self, class_id_to_keep, verbose=False):
         # Remove instances with a class other than the given class.
         for detection in self.detections:
-            detection.filter_by_class(class_id_to_keep)
+            detection.filter_by_class(class_id_to_keep, verbose=verbose)
 
-    def filter_by_minimum_area(self, minimum_area):
+    def filter_by_minimum_area(self, minimum_area, verbose=False):
         # Remove instances with areas smaller than the given minimum area.
         for detection in self.detections:
-            detection.filter_by_minimum_area(minimum_area)
+            detection.filter_by_minimum_area(minimum_area, verbose=verbose)
 
-    def filter_by_maximum_area(self, maximum_area):
+    def filter_by_maximum_area(self, maximum_area, verbose=False):
         # Remove instances with areas larger than the given maximum area.
         for detection in self.detections:
-            detection.filter_by_maximum_area(maximum_area)
+            detection.filter_by_maximum_area(maximum_area, verbose=verbose)
 
-    def filter_by_minimum_circularity(self, minimum_circularity):
+    def filter_by_minimum_circularity(self, minimum_circularity, verbose=False):
         # Remove instances with circularities smaller than the given minimum circularity.
         for detection in self.detections:
-            detection.filter_by_minimum_circularity(minimum_circularity)
+            detection.filter_by_minimum_circularity(minimum_circularity, verbose=verbose)
 
-    def clear_border_objects(self):
+    def clear_border_objects(self, verbose=False):
         # Remove instances that touch the border of the image.
         for detection in self.detections:
-            detection.clear_border_objects()
+            detection.clear_border_objects(verbose=verbose)
 
     def to_size_distribution(self, measurand):
         # Return a size distribution based on a certain measurand.
