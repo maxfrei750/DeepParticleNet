@@ -23,6 +23,10 @@ class Detection:
     def perimeters(self):
         return [perimeter(mask) for mask in self.masks]
 
+    @property
+    def number_of_instances(self):
+        return len(self.masks)
+
     # Methods
     def display_detection_image(self,
                                 do_return_figure_handle=False,
