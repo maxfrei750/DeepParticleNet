@@ -14,7 +14,7 @@ class Detection:
         self.bboxes = bboxes
         self.scores = scores
 
-    # Dependant attributes
+    # Dependant properties
     @property
     def areas(self):
         return [np.sum(mask) for mask in self.masks]
@@ -65,14 +65,12 @@ class Detection:
 
     def filter_by_minimum_area(self, minimum_area):
         # Remove instances with areas smaller than the given minimum area.
-        areas = [np.sum(mask) for mask in self.masks]
-        do_keep = [area >= minimum_area for area in areas]
+        do_keep = [area >= minimum_area for area in self.areas]
         self.filter_by_list(do_keep)
 
     def filter_by_maximum_area(self, maximum_area):
         # Remove instances with areas larger than the given maximum area.
-        areas = [np.sum(mask) for mask in self.masks]
-        do_keep = [area <= maximum_area for area in areas]
+        do_keep = [area <= maximum_area for area in self.areas]
         self.filter_by_list(do_keep)
 
     def filter_by_minimum_circularity(self, minimum_circularity):
