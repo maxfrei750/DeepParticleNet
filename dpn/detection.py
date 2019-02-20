@@ -48,7 +48,7 @@ class Detection:
         self.bboxes = list(compress(self.bboxes, do_keep))
         self.scores = list(compress(self.scores, do_keep))
 
-    def filter_by_score(self, minimum_score):
+    def filter_by_minimum_score(self, minimum_score):
         # Remove instances with scores smaller then the given minimum score.
         do_keep = [score >= minimum_score for score in self.scores]
         self.filter_by_list(do_keep)

@@ -61,10 +61,10 @@ class Results(Storable):
     def append_detection(self, detection):
         self.detections += [detection]
 
-    def filter_by_score(self, minimum_score):
+    def filter_by_minimum_score(self, minimum_score):
         # Remove instances with a score below a certain threshold.
         for detection in self.detections:
-            detection.filter_by_score(minimum_score)
+            detection.filter_by_minimum_score(minimum_score)
 
     def filter_by_class(self, class_id_to_keep):
         # Remove instances with a class other than the given class.
