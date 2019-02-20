@@ -63,3 +63,9 @@ class Detection:
         areas = [np.sum(mask) for mask in self.masks]
         do_keep = [area >= minimum_area for area in areas]
         self.filter_by_list(do_keep)
+
+    def filter_by_maximum_area(self, maximum_area):
+        # Remove instances with areas larger than the given maximum area.
+        areas = [np.sum(mask) for mask in self.masks]
+        do_keep = [area <= maximum_area for area in areas]
+        self.filter_by_list(do_keep)
