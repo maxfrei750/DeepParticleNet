@@ -76,3 +76,16 @@ class Detection:
         # Remove instances with areas larger than the given maximum area.
         do_keep = [area <= maximum_area for area in self.areas]
         self.filter_by_list(do_keep)
+
+    def filter_by_minimum_circularity(self, minimum_circularity):
+        # Remove instances with circularities smaller than the given minimum circularity.
+
+        areas = np.asarray(self.areas)
+        perimeters = np.asarray(self.perimeters)
+
+        circularities = 4 * np.pi * areas / perimeters**2
+
+        circularities = circularities.tolist()
+
+        do_keep = [circularity >= minimum_circularity for circularity in circularities]
+        self.filter_by_list(do_keep)

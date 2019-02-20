@@ -81,6 +81,11 @@ class Results(Storable):
         for detection in self.detections:
             detection.filter_by_maximum_area(maximum_area)
 
+    def filter_by_minimum_circularity(self, minimum_circularity):
+        # Remove instances with circularities smaller than the given minimum circularity.
+        for detection in self.detections:
+            detection.filter_by_minimum_circularity(minimum_circularity)
+
     def clear_border_objects(self):
         # Remove instances that touch the border of the image.
         for detection in self.detections:
