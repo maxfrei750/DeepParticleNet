@@ -71,10 +71,10 @@ class Results(Storable):
         for detection in self.detections:
             detection.filter_by_class(class_id_to_keep)
 
-    def filter_by_area(self, minimum_area):
+    def filter_by_minimum_area(self, minimum_area):
         # Remove instances with areas smaller than the given minimum area.
         for detection in self.detections:
-            detection.filter_by_area(minimum_area)
+            detection.filter_by_minimum_area(minimum_area)
 
     def clear_border_objects(self):
         # Remove instances that touch the border of the image.
