@@ -19,7 +19,18 @@ RUN pip --no-cache-dir install \
 # Set up our notebook config.
 COPY jupyter_notebook_config.py /root/.jupyter/
 
+# Prepare to install stuff with apt-get
+RUN apt-get update
+
+# Install variable inspector extension for jupyterlab.
+RUN apt-get install -y --no-install-recommends \
+    curl \
+    python-software-properties
+RUN curl -sL https://deb.nodesource.com/setup_10.x | bash -
+RUN apt-get install -y nodejs
+RUN jupyter labextension install @lckr/jupyterlab_variableinspector
+
 # Install Latex for greek symbols, etc. in graphs.
-RUN apt-get update && apt-get install -y --no-install-recommends \
+RUN apt-get install -y --no-install-recommends \
 	texlive-latex-extra \
 	dvipng
