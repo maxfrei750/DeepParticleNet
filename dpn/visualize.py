@@ -119,7 +119,7 @@ def plot_size_distributions(sizedistributions, captions,
                  bins=bins,
                  density=density,
                  label=label,
-                 alpha=0.5,
+                 alpha=0.75,
                  fill=True,
                  histtype='step')
 
