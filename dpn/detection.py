@@ -2,7 +2,7 @@ from dpn.visualize import display_instance_outlines
 import numpy as np
 from itertools import compress
 from skimage.segmentation import clear_border
-from skimage.measure import perimeter
+from skimage.morphology import binary_erosion
 import matplotlib.pyplot as plt
 
 
@@ -21,7 +21,9 @@ class Detection:
 
     @property
     def perimeters(self):
-        return [perimeter(mask) for mask in self.masks]
+        # Calculate the perimeter as the sum of the pixels in the outline of a mask.
+        # The outline is retrieved by xor-ing mask with an erosion of itself.
+        return [np.sum(mask ^ binary_erosion(mask)) for mask in self.masks]
 
     @property
     def number_of_instances(self):
