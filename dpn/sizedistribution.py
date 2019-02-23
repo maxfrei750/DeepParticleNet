@@ -60,9 +60,9 @@ class SizeDistribution(Storable):
         s_g_gt = ground_truth.geometric_standard_deviation
         N_gt = ground_truth.number_of_particles
 
-        error_d_g = d_g / d_g_gt
-        error_s_g = s_g / s_g_gt
-        error_N = N / N_gt
+        error_d_g = d_g / d_g_gt - 1
+        error_s_g = s_g / s_g_gt - 1
+        error_N = N / N_gt - 1
 
         if do_print_output:
             print("d_g = {:.0f}".format(d_g))
