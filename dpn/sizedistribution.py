@@ -65,12 +65,12 @@ class SizeDistribution(Storable):
         error_N = N / N_gt - 1
 
         if do_print_output:
-            print("d_g = {:.0f}".format(d_g))
-            print("d_g_gt = {:.1f}".format(d_g_gt))
+            print("d_g = {:.3f}".format(d_g))
+            print("d_g_gt = {:.3f}".format(d_g_gt))
             print("error_d_g = {:.3f}".format(error_d_g))
             print("\n")
-            print("s_g = {:.2f}".format(s_g))
-            print("s_g_gt = {:.2f}".format(s_g_gt))
+            print("s_g = {:.3f}".format(s_g))
+            print("s_g_gt = {:.3f}".format(s_g_gt))
             print("error_s_g = {:.3f}".format(error_s_g))
             print("\n")
             print("N = {:.0f}".format(N))
