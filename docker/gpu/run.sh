@@ -1,26 +1,14 @@
 #!/bin/sh
 
 temp=$( realpath "$0"  )
-basePath=$( dirname "$temp" )/../..
+basePath=$( dirname "$temp" )
 
 nvidia-docker run \
 	--rm \
-	--detach \
+	-it \
 	--name deepparticlenet \
-	--network=host --env PASSWORD=$USER \
-	--volume "$basePath":/notebooks \
-	--volume $(readlink -f "$basePath"/datasets/):/notebooks/datasets/ \
-	maxfrei750/deepparticlenet:tf1.10.0-gpu-py3
-
-# Run tensorboard.
-docker exec \
-	--detach \
-	deepparticlenet \
-	tensorboard --logdir=/notebooks/logs
-
-# Open a terminal.
-docker exec \
-	--interactive \
-	--tty \
-	deepparticlenet \
-	bash
+	--network=host \
+	--volume "$basePath":/tf/notebooks \
+	--volume /media/data_fast/datasets/:/tf/notebooks/datasets/ \
+	--volume /media/data_fast/logs/:/tf/notebooks/logs/ \
+	maxfrei750/deepparticlenet:gpu
