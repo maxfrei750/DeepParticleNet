@@ -99,7 +99,7 @@ class Results(Storable):
         # Check inputs.
         assert measurand in \
             ["equivalent_diameter", "equivalent_diameter_convex", "major_bbox_side_length", "major_axis_length"], \
-            "Expected measurand to be one of the following:" \
+            "Expected measurand to be one of the following: " \
             "equivalent_diameter, " \
             "equivalent_diameter_convex, " \
             "major_bbox_side_length, " \
