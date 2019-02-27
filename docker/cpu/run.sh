@@ -8,7 +8,7 @@ docker run \
 	-it \
 	--name deepparticlenet \
 	--network=host \
-	--volume "$basePath":/tf/notebooks \
-	--volume /media/data_fast/datasets/:/tf/notebooks/datasets/ \
-	--volume /media/data_fast/logs/:/tf/notebooks/logs/ \
+	--volume "$basePath":/tf \
+	--volume /media/data_fast/datasets/:/tf/datasets/ \
+	--volume /media/data_fast/logs/:/tf/logs/ \
 	maxfrei750/deepparticlenet:cpu
