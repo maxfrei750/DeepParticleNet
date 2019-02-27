@@ -11,4 +11,4 @@ docker run \
 	--volume "$basePath":/tf/notebooks \
 	--volume /media/data_fast/datasets/:/tf/notebooks/datasets/ \
 	--volume /media/data_fast/logs/:/tf/notebooks/logs/ \
-	maxfrei750/deepparticlenet:gpu
+	maxfrei750/deepparticlenet:cpu
