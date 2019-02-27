@@ -8,5 +8,6 @@ class Storable:
 
     @staticmethod
     def load(input_path):
+        dill._dill._reverse_typemap['ClassType'] = type
         with open(input_path, "rb") as file:
             return dill.load(file)
