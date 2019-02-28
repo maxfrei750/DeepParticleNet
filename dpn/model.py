@@ -2,12 +2,19 @@ from mrcnn.model import MaskRCNN
 from dpn.results import Results
 from dpn.detection import Detection
 import numpy as np
+from keras.callbacks import CSVLogger
+import os
 
 
 class Model(MaskRCNN):
     def train(self, dataset_train, dataset_val):
         # Save config in the log dir.
         self.config.save(self.log_dir)
+
+        # Append a CSVLogger to the custom callbacks by default.
+        csv_path = os.path.join(self.log_dir, "training.csv")
+        csv_logger = CSVLogger(csv_path, append=True)
+        self.config.CUSTOM_CALLBACKS.append(csv_logger)
 
         # Call the training method of the super class.
         super().train(dataset_train, dataset_val,
