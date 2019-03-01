@@ -5,7 +5,7 @@ import pathlib
 
 
 class Config(MrcnnConfig, Storable):
-    CUSTOM_CALLBACKS = None
+    CUSTOM_CALLBACKS = []
     NO_AUGMENTATION_SOURCES = None
     AUGMENTATION = None
     DATASET_PATH = ""
