@@ -12,7 +12,7 @@ class Model(MaskRCNN):
         self.config.save(self.log_dir)
 
         # Append a CSVLogger to the custom callbacks by default.
-        csv_path = os.path.join(self.log_dir, "training.csv")
+        csv_path = os.path.join(self.log_dir, self.config.NAME.lower()+"_training.csv")
         csv_logger = CSVLogger(csv_path, append=True)
         self.config.CUSTOM_CALLBACKS.append(csv_logger)
 
