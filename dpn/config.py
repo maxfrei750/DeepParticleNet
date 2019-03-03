@@ -24,6 +24,17 @@ class Config(MrcnnConfig, Storable):
     LEARNING_RATE = 0.01
     EPOCHS = 10000
 
+    def __init__(self):
+        # Effective batch size
+        self.BATCH_SIZE = self.IMAGES_PER_GPU * self.GPU_COUNT
+
+        # Calculate number of training steps per epoch, so that all trainings samples are used once per epoch.
+        self.STEPS_PER_EPOCH = round(self.NUMBER_OF_SAMPLES_TRAIN/self.BATCH_SIZE)
+        # Calculate number of validation steps per epoch, so that all validation samples are used once per epoch.
+        self.VALIDATION_STEPS = round(self.NUMBER_OF_SAMPLES_VAL/self.BATCH_SIZE)
+
+        super().__init__()
+
     # Method to save the config.
     def save(self, directory):
         """Save Configuration values."""
