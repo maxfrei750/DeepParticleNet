@@ -12,6 +12,13 @@ class Dataset(MrcnnDataset):
     # Allow the user to define a class for the dataset, if there is only one.
     MONOCLASS = False  # e.g. MONOCLASS = "sphere"
 
+    def __init__(self, class_map=None, config=None, dataset_name=None):
+        super().__init__(class_map=class_map)
+
+        if config is not None and dataset_name is not None:
+            print("Loading dataset {} based on config.".format(dataset_name))
+            self.load_dataset_from_config(config, dataset_name)
+
     def load_dataset_from_config(self, config, dataset_name):
         dataset_name = dataset_name.lower()
 
