@@ -47,6 +47,8 @@ class Dataset(MrcnnDataset):
                 if image_counter >= limit:
                     break
 
+        self.prepare()
+
     def load_mask(self, image_id):
         """Generate instance masks for an image.
        Returns:
