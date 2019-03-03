@@ -4,9 +4,23 @@ from dpn.detection import Detection
 import numpy as np
 from keras.callbacks import CSVLogger
 import os
+import inspect
 
 
 class Model(MaskRCNN):
+    def __init__(self, mode, config, model_dir):
+        super().__init__(mode, config, model_dir)
+
+        # If the user set USE_PRETRAINED_WEIGHTS in the config, then try to load a preset weight set. If that fails,
+        # then try to load the weights from a file that the user may have specified.
+        if config.USE_PRETRAINED_WEIGHTS is not None:
+            print("Using pretrained weights: {}".format(config.USE_PRETRAINED_WEIGHTS))
+
+            try:
+                self.load_pretrained_weights(config.USE_PRETRAINED_WEIGHTS)
+            except AssertionError:
+                self.load_weights(config.USE_PRETRAINED_WEIGHTS, by_name=True)
+
     def train(self, dataset_train, dataset_val):
         # Save config in the log dir.
         self.config.save(self.log_dir)
@@ -70,3 +84,30 @@ class Model(MaskRCNN):
             results.append_detection(new_detection)
 
         return results
+
+    def load_pretrained_weights(self, weight_name, verbose=False):
+        module_dir = os.path.dirname(os.path.abspath(inspect.stack()[0][1]))
+        model_dir = os.path.join(module_dir, "..", "models")
+
+        weight_name = weight_name.lower()
+        expected_weight_names = ["resnet50_coco", "resnet101_coco"]
+
+        assert weight_name in expected_weight_names, \
+            "Expected weight_name to be one of the following: {}.".format(expected_weight_names)
+
+        if weight_name == "resnet50_coco":
+            weight_name = "resnet101_coco"
+            if verbose:
+                print("Using resnet101_coco weights file but loading only the resnet50 part.")
+
+        weight_path = os.path.abspath(os.path.join(model_dir, weight_name+".h5"))
+
+        if verbose:
+            print("Loading weights from: "+weight_path)
+
+        # Exclude the last layers because they require a matching number of classes.
+        self.load_weights(
+            weight_path,
+            by_name=True,
+            exclude=["mrcnn_class_logits", "mrcnn_bbox_fc", "mrcnn_bbox", "mrcnn_mask"]
+        )
