@@ -12,6 +12,25 @@ class Dataset(MrcnnDataset):
     # Allow the user to define a class for the dataset, if there is only one.
     MONOCLASS = False  # e.g. MONOCLASS = "sphere"
 
+    def load_dataset_from_config(self, config, dataset_name):
+        dataset_name = dataset_name.lower()
+
+        expected_dataset_names = ["train", "training", "val", "validation"]
+
+        assert dataset_name in expected_dataset_names, \
+            "Expected dataset_name to be one of the following: {}.".format(expected_dataset_names)
+
+        dataset_path = config.DATASET_PATH
+
+        if dataset_name in ["train", "training"]:
+            subset = config.DATASET_SUBSET_TRAIN
+            limit = config.NUMBER_OF_SAMPLES_TRAIN
+        elif dataset_name in ["val", "validation"]:
+            subset = config.DATASET_SUBSET_VAL
+            limit = config.NUMBER_OF_SAMPLES_VAL
+
+        self.load_dataset(dataset_path, subset, limit=limit)
+
     def load_dataset(self, dataset_dir, subset, limit=None):
         """Load a subset of a particle dataset.
 
