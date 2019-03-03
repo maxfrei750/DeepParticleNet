@@ -5,11 +5,24 @@ import pathlib
 
 
 class Config(MrcnnConfig, Storable):
-    CUSTOM_CALLBACKS = []
-    NO_AUGMENTATION_SOURCES = None
+    # Dataset
     AUGMENTATION = None
-    DATASET_PATH = ""
+    NO_AUGMENTATION_SOURCES = None
+    DATASET_PATH = None
+    NUMBER_OF_SAMPLES_TRAIN = 100
+    NUMBER_OF_SAMPLES_VAL = 10
+
+    # Architecture
+    DETECTION_MAX_INSTANCES = 100
     NUM_CLASSES = 1 + 2  # Background + sphere + cube
+    USE_PRETRAINED_WEIGHTS = None
+
+    # Training
+    CUSTOM_CALLBACKS = []
+    MAX_GT_INSTANCES = 200
+    LAYERS = "all"
+    LEARNING_RATE = 0.01
+    EPOCHS = 10000
 
     # Method to save the config.
     def save(self, directory):
