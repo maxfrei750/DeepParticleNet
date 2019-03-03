@@ -20,12 +20,12 @@ RUN pip --no-cache-dir install \
 	cython \
 	dill \
 	imgaug \
-	IPython[all] \
 	jupyterlab \
 	keras==2.1.3 \
 	opencv-python==3.3.0.9 \
 	scikit-image \
-	pandas
+	pandas \
+	seaborn
 
 # Install NodeJs to as preparation to install JupyterLab extensions.
 RUN apt-get install -y --no-install-recommends \
