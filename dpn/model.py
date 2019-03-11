@@ -90,7 +90,7 @@ class Model(MaskRCNN):
         model_dir = os.path.join(module_dir, "..", "models")
 
         weight_name = weight_name.lower()
-        expected_weight_names = ["resnet50_coco", "resnet101_coco"]
+        expected_weight_names = ["resnet50_coco", "resnet101_coco", "resnet50_imagenet"]
 
         assert weight_name in expected_weight_names, \
             "Expected weight_name to be one of the following: {}.".format(expected_weight_names)
