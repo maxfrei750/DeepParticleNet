@@ -2,7 +2,7 @@ from mrcnn.model import MaskRCNN
 from dpn.results import Results
 from dpn.detection import Detection
 import numpy as np
-from keras.callbacks import CSVLogger
+from keras.callbacks import CSVLogger, TerminateOnNaN
 import os
 import inspect
 
@@ -29,6 +29,10 @@ class Model(MaskRCNN):
         csv_path = os.path.join(self.log_dir, self.config.NAME.lower()+"_training.csv")
         csv_logger = CSVLogger(csv_path, append=True)
         self.config.CUSTOM_CALLBACKS.append(csv_logger)
+
+        # Append a TerminateOnNaN callback to the custom callbacks by default.
+        nan_terminator = TerminateOnNaN()
+        self.config.CUSTOM_CALLBACKS.append(nan_terminator)
 
         # Call the training method of the super class.
         super().train(dataset_train, dataset_val,
