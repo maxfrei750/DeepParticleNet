@@ -57,4 +57,4 @@ def get_maximum_feret_diameter(masks):
 
         max_feret_diameters.append(max_feret_diameter)
 
-    return np.array(max_feret_diameters)
+    return max_feret_diameters
