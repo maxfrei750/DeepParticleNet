@@ -1,5 +1,5 @@
 from dpn.sizedistribution import SizeDistribution
-from dpn.utilities import calculate_equivalent_diameter, get_major_bbox_side_length
+from dpn.utilities import calculate_equivalent_diameter, get_major_bbox_side_length, get_maximum_feret_diameter
 import numpy as np
 from skimage.measure import regionprops
 import os
@@ -98,15 +98,17 @@ class Results(Storable):
 
         # Check inputs.
         assert measurand in \
-            ["equivalent_diameter", "equivalent_diameter_convex", "major_bbox_side_length", "major_axis_length"], \
+            ["equivalent_diameter", "equivalent_diameter_convex", "major_bbox_side_length", "major_axis_length", "maximum_feret_diameter"], \
             "Expected measurand to be one of the following: " \
             "equivalent_diameter, " \
             "equivalent_diameter_convex, " \
             "major_bbox_side_length, " \
-            "major_axis_length"
+            "major_axis_length, " \
+            "maximum_feret_diameter"
 
-        # Analyze region properties of the masks.
-        instances = [regionprops(mask.astype(int))[0] for mask in self.masks]
+        # Analyze region properties of the masks, if necessary.
+        if measurand is not "maximum_feret_diameter":
+            instances = [regionprops(mask.astype(int))[0] for mask in self.masks]
 
         if measurand == "equivalent_diameter":
             areas = [instance.filled_area for instance in instances]
@@ -118,6 +120,8 @@ class Results(Storable):
             measurements = get_major_bbox_side_length(self.bboxes)
         elif measurand == "major_axis_length":
             measurements = [instance.major_axis_length for instance in instances]
+        elif measurand == "maximum_feret_diameter":
+            measurements = get_maximum_feret_diameter(self.masks)
 
         # Create and return a SizeDistribution-object.
         size_distribution = SizeDistribution("px")
