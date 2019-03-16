@@ -50,11 +50,15 @@ def get_maximum_feret_diameter(masks):
 
     for i_mask in range(number_of_masks):
         mask = masks[:, :, i_mask]
-        mask_convex_hull = convex_hull_image(mask)
-        coordinates = np.vstack(find_contours(mask_convex_hull, 0.5, fully_connected="high"))
-        distances = pdist(coordinates, "sqeuclidean")
-        max_feret_diameter = np.sqrt(np.max(distances))
 
-        max_feret_diameters.append(max_feret_diameter)
+        try:
+            mask_convex_hull = convex_hull_image(mask)
+            coordinates = np.vstack(find_contours(mask_convex_hull, 0.5, fully_connected="high"))
+            distances = pdist(coordinates, "sqeuclidean")
+            max_feret_diameter = np.sqrt(np.max(distances))
+
+            max_feret_diameters.append(max_feret_diameter)
+        except ValueError:
+            print("Ignored mask, due to small size.")
 
     return max_feret_diameters
