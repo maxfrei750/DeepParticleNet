@@ -4,6 +4,7 @@ import matplotlib.pyplot as plt
 from matplotlib.patches import Polygon
 from skimage.measure import find_contours
 from scipy.ndimage import binary_fill_holes
+import seaborn as sns
 
 
 def display_image(image, title="", figsize=(16, 16), ax=None):
@@ -104,33 +105,52 @@ def display_instance_outlines(image, masks,
 def plot_size_distributions(sizedistributions, captions,
                             density=True,
                             number_in_legend=True,
-                            bins=np.linspace(20, 100, 9)):
+                            bins="auto",
+                            alpha = 0.5,
+                            fill=True,
+                            histtype="step",
+                            **kwargs):
+    
+    # Set a default for the color
+    if "color" in kwargs:
+        color = kwargs["color"]
+        del(kwargs["color"])
+    else:
+        number_of_sizedistributions = len(sizedistributions)
+        color = sns.color_palette("viridis",number_of_sizedistributions)
+    
+    sizes_list = [sizedistribution.sizes for sizedistribution in sizedistributions]
+    
+    labels = list()
+    
     for sizedistribution, caption in zip(sizedistributions, captions):
         d_g = sizedistribution.geometric_mean
         s_g = sizedistribution.geometric_standard_deviation
 
+        label = caption + "$d_\mathrm{{g}} = {:.0f}\mathrm{{px}}$; $\sigma_\mathrm{{g}} = {:.2f}$".format(d_g, s_g)
+        
         if number_in_legend:
             N = sizedistribution.number_of_particles
-            label = caption + "\n$d_g = {:.0f}\mathrm{{px}}$; $\sigma_g = {:.2f}$; $N = {:d}$".format(d_g, s_g, N)
-        else:
-            label = caption + "\n$d_g = {:.0f}\mathrm{{px}}$; $\sigma_g = {:.2f}$".format(d_g, s_g)
-
-        plt.hist(sizedistribution.sizes,
-                 bins=bins,
-                 density=density,
-                 label=label,
-                 alpha=0.75,
-                 fill=True,
-                 histtype='step')
-
-    plt.grid(True)
+            label = label + "; $N = {:d}$".format(N)
+            
+        labels += [label]
+            
+    histogram_n, histogram_bins, _ = plt.hist(sizes_list,
+                                           bins=bins,
+                                           density=density,
+                                           label=labels,
+                                           alpha=alpha,
+                                           fill=fill,
+                                           histtype=histtype,
+                                           color=color,
+                                           **kwargs)
+        
     plt.legend(bbox_to_anchor=(0., 1.02, 1., .102),
                loc="lower left",
-               ncol=2,
+               ncol=1,
                mode="expand",
                borderaxespad=0.)
     ax = plt.gca()
-    ax.set_position([0, 0, 1, 1])
     plt.xlabel("Diameter [px]")
 
     plt.xlim(left=0)
@@ -140,4 +160,4 @@ def plot_size_distributions(sizedistributions, captions,
     else:
         plt.ylabel("Count [a.u.]")
 
-    return ax
+    return ax, histogram_n, histogram_bins
