@@ -140,6 +140,4 @@ def plot_size_distributions(sizedistributions, captions,
     else:
         plt.ylabel("Count [a.u.]")
 
-    plt.show()
-
-    return ax.figure
+    return ax
