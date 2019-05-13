@@ -105,35 +105,50 @@ def display_instance_outlines(image, masks,
 def plot_size_distributions(sizedistributions, captions,
                             density=True,
                             number_in_legend=True,
+                            d_g_in_legend=True,
+                            sigma_g_in_legend=True,
                             bins="auto",
                             alpha = 0.5,
                             fill=True,
                             histtype="step",
+                            ncol = 2,
                             **kwargs):
     
     # Set a default for the color
     if "color" in kwargs:
-        color = kwargs["color"]
+        colors = kwargs["color"]
         del(kwargs["color"])
     else:
         number_of_sizedistributions = len(sizedistributions)
-        color = sns.color_palette("viridis",number_of_sizedistributions)
+        colors = sns.color_palette("viridis",number_of_sizedistributions)
     
     sizes_list = [sizedistribution.sizes for sizedistribution in sizedistributions]
     
     labels = list()
     
     for sizedistribution, caption in zip(sizedistributions, captions):
-        d_g = sizedistribution.geometric_mean
-        s_g = sizedistribution.geometric_standard_deviation
-
-        label = caption + "$d_\mathrm{{g}} = {:.0f}\mathrm{{px}}$; $\sigma_\mathrm{{g}} = {:.2f}$".format(d_g, s_g)
+        label = caption
+        if d_g_in_legend:
+            d_g = sizedistribution.geometric_mean
+            label += "$d_\mathrm{{g}} = {:.0f}\mathrm{{px}}$; ".format(d_g)
+            
+        if sigma_g_in_legend:
+            s_g = sizedistribution.geometric_standard_deviation
+            label += "$\sigma_\mathrm{{g}} = {:.2f}$; ".format(s_g)
         
         if number_in_legend:
             N = sizedistribution.number_of_particles
-            label = label + "; $N = {:d}$".format(N)
+            label += "$N = {:d}$; ".format(N)
+            
+        if d_g_in_legend or sigma_g_in_legend or number_in_legend:
+            label = label[:-2]
             
         labels += [label]
+        
+    # Reverse colors, labels and sizes_list because they are again reversed by the hist function.
+    colors.reverse()
+    sizes_list.reverse()
+    labels.reverse()
             
     histogram_n, histogram_bins, _ = plt.hist(sizes_list,
                                            bins=bins,
@@ -142,12 +157,15 @@ def plot_size_distributions(sizedistributions, captions,
                                            alpha=alpha,
                                            fill=fill,
                                            histtype=histtype,
-                                           color=color,
+                                           color=colors,
                                            **kwargs)
+    
+    # Reverse outputs
+    histogram_n.reverse()
         
     plt.legend(bbox_to_anchor=(0., 1.02, 1., .102),
                loc="lower left",
-               ncol=1,
+               ncol=ncol,
                mode="expand",
                borderaxespad=0.)
     ax = plt.gca()
