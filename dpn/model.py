@@ -21,7 +21,13 @@ class Model(MaskRCNN):
             except AssertionError:
                 self.load_weights(config.USE_PRETRAINED_WEIGHTS, by_name=True)
 
-    def train(self, dataset_train, dataset_val):
+    def train(self, dataset_train, dataset_val, custom_learning_rate=None):
+
+        if custom_learning_rate is not None:
+            # Save learning rate in config.
+            self.config.LEARNING_RATE = custom_learning_rate
+            print("Attention: Overriding learning rate.")
+
         # Save config in the log dir.
         self.config.save(self.log_dir)
 
