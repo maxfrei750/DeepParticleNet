@@ -21,13 +21,7 @@ class Model(MaskRCNN):
             except AssertionError:
                 self.load_weights(config.USE_PRETRAINED_WEIGHTS, by_name=True)
 
-    def train(self, dataset_train, dataset_val, custom_learning_rate=None):
-
-        if custom_learning_rate is not None:
-            # Save learning rate in config.
-            self.config.LEARNING_RATE = custom_learning_rate
-            print("Attention: Overriding learning rate.")
-
+    def train(self, dataset_train, dataset_val, save_best_only=False):
         # Save config in the log dir.
         self.config.save(self.log_dir)
 
@@ -41,13 +35,17 @@ class Model(MaskRCNN):
         self.config.CUSTOM_CALLBACKS.append(nan_terminator)
 
         # Call the training method of the super class.
-        super().train(dataset_train, dataset_val,
+        history = super().train(dataset_train, dataset_val,
                       learning_rate=self.config.LEARNING_RATE,
                       epochs=self.config.EPOCHS,
                       layers=self.config.LAYERS,
                       augmentation=self.config.AUGMENTATION,
                       custom_callbacks=self.config.CUSTOM_CALLBACKS,
-                      no_augmentation_sources=self.config.NO_AUGMENTATION_SOURCES)
+                      no_augmentation_sources=self.config.NO_AUGMENTATION_SOURCES,
+                      save_best_only=save_best_only,
+                      monitored_quantity='val_loss')
+
+        return history
 
     def detect(self, image, verbose=0):
         # Call the training method of the super class.
