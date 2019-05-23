@@ -21,12 +21,8 @@ RUN pip --no-cache-dir install \
 RUN curl -sL https://deb.nodesource.com/setup_12.x | bash -
 RUN apt-get install -y nodejs
 
-# Reinstall pip.
-RUN curl https://bootstrap.pypa.io/get-pip.py -o get-pip.py
-RUN python3 get-pip.py --force-reinstall
-
-# Reinstall jupyter.
-RUN pip3 install --upgrade --force-reinstall --no-cache-dir jupyterlab
+# Fix symlink that NodeJs installation broke by installin python2.
+RUN ln -sf /usr/bin/python3.5 /usr/bin/python
 
 # Install JupyterLab Variable inspector.
 RUN jupyter labextension install @lckr/jupyterlab_variableinspector
