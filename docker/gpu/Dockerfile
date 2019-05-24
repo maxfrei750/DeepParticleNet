@@ -30,6 +30,10 @@ RUN jupyter labextension install @lckr/jupyterlab_variableinspector
 # Install JupyterLab GoToDefinition.
 RUN jupyter labextension install @krassowski/jupyterlab_go_to_definition
 
+# Install psmisc so that we can stop (and restart) tensorboard.
+RUN apt-get update && apt-get install -yq --no-install-recommends \
+	psmisc
+
 # Create and set working directory.
 RUN mkdir /tf
 WORKDIR /tf
