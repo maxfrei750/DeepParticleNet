@@ -107,10 +107,10 @@ def plot_size_distributions(sizedistributions, captions,
                             d_g_in_legend=True,
                             sigma_g_in_legend=True,
                             bins="auto",
-                            alpha = 0.5,
+                            alpha=0.5,
                             fill=True,
                             histtype="step",
-                            ncol = 2,
+                            ncol=2,
                             **kwargs):
     
     # Set a default for the color
