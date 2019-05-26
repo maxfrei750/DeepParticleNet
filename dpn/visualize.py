@@ -1,4 +1,3 @@
-import numpy as np
 from mrcnn.visualize import *
 import matplotlib.pyplot as plt
 from matplotlib.patches import Polygon
