@@ -127,6 +127,10 @@ def plot_size_distributions(sizedistributions, captions,
     
     for sizedistribution, caption in zip(sizedistributions, captions):
         label = caption
+
+        if d_g_in_legend or sigma_g_in_legend or number_in_legend:
+            label += " ("
+
         if d_g_in_legend:
             d_g = sizedistribution.geometric_mean
             label += "$d_\mathrm{{g}} = {:.0f}\mathrm{{px}}$; ".format(d_g)
@@ -140,7 +144,7 @@ def plot_size_distributions(sizedistributions, captions,
             label += "$N = {:d}$; ".format(N)
             
         if d_g_in_legend or sigma_g_in_legend or number_in_legend:
-            label = label[:-2]
+            label = label[:-2] + ")"
             
         labels += [label]
         
@@ -168,13 +172,13 @@ def plot_size_distributions(sizedistributions, captions,
                mode="expand",
                borderaxespad=0.)
     ax = plt.gca()
-    plt.xlabel("Diameter [px]")
+    plt.xlabel("$d/\mathrm{px}$")
 
     plt.xlim(left=0)
 
     if density:
-        plt.ylabel("Probability Density [a.u.]")
+        plt.ylabel("$P(d)$")
     else:
-        plt.ylabel("Count [a.u.]")
+        plt.ylabel("$N$")
 
     return ax, histogram_n, histogram_bins
