@@ -6,8 +6,10 @@ basePath=$( dirname "$temp" )
 docker run \
 	--runtime=nvidia \
 	--rm \
-	--interactive \
-	--detach
+	-it \
+	--detach \
+	--shm-size=1g \
+	--ulimit memlock=-1 \
 	--name deepparticlenet \
 	--network=host \
 	--volume "$basePath":/tf \
