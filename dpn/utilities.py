@@ -37,20 +37,15 @@ def calculate_equivalent_diameter(areas):
 
 def get_maximum_feret_diameter(masks):
     """ Calculates the maximum feret diameter for each mask in masks.
-    masks: [height, width, N]
+    masks: list of masks
 
     Based on: https://github.com/scikit-image/scikit-image/issues/2320#issuecomment-256057683
     See also:   https://github.com/scikit-image/scikit-image/pull/1780
     """
 
-    masks = np.atleast_3d(masks)
-    number_of_masks = masks.shape[2]
-
     max_feret_diameters = []
 
-    for i_mask in range(number_of_masks):
-        mask = masks[:, :, i_mask]
-
+    for mask in masks:
         try:
             mask_convex_hull = convex_hull_image(mask)
             coordinates = np.vstack(find_contours(mask_convex_hull, 0.5, fully_connected="high"))
