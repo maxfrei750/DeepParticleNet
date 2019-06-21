@@ -1,5 +1,5 @@
 import numpy as np
-import scipy
+from scipy.stats.mstats import gmean
 from dpn.storable import Storable
 
 
@@ -15,7 +15,7 @@ class SizeDistribution(Storable):
     # Dependant attributes
     @property
     def geometric_mean(self):
-        return scipy.stats.mstats.gmean(self.sizes)
+        return gmean(self.sizes)
 
     @property
     def geometric_standard_deviation(self):
