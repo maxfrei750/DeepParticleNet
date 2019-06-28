@@ -1,2 +1,2 @@
 #!/usr/bin/env bash
-docker build -t maxfrei750/deepparticlenet:gpu .
+docker build -t maxfrei750/deepparticlenet:cpu .
