@@ -43,8 +43,3 @@ RUN jupyter labextension install @krassowski/jupyterlab_go_to_definition
 # Install additional tools.
 RUN apt-get update && apt-get install -yq --no-install-recommends \
 	psmisc
-
-# Install Windows fonts.
-RUN echo ttf-mscorefonts-installer msttcorefonts/accepted-mscorefonts-eula select true | debconf-set-selections 
-RUN apt-get install -y \
-	ttf-mscorefonts-installer
