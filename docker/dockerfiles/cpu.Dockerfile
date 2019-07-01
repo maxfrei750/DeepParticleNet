@@ -5,16 +5,6 @@ FROM tensorflow/tensorflow:1.13.1-py3-jupyter
 LABEL description="Container to train and run the DeepParticleNet on systems without a GPU."
 LABEL maintainer="Max Frei <max.frei@uni-due.de>"
 
-# Install Latex for greek symbols, etc. in graphs.
-RUN apt-get update && apt-get install -yq --no-install-recommends \
-	texlive-fonts-extra \
-    texlive-fonts-recommended \
-    texlive-generic-recommended \
-    texlive-latex-base \
-    texlive-latex-extra \
-    texlive-xetex \
-	dvipng
-
 # Install additional dependencies.
 RUN pip --no-cache-dir install \
 	cython \
