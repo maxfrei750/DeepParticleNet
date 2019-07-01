@@ -28,7 +28,7 @@ RUN pip --no-cache-dir install \
 	seaborn
 
 # Install NodeJs to as preparation to install JupyterLab extensions.
-RUN apt-get install -y --no-install-recommends \
+RUN apt-get update && apt-get install -y --no-install-recommends \
     curl \
     python-software-properties
 RUN curl -sL https://deb.nodesource.com/setup_10.x | bash -
