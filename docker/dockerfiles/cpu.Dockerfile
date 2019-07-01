@@ -1,5 +1,5 @@
 # Use an official tensorflow container as parent.
-FROM tensorflow/tensorflow:1.13.0rc2-py3-jupyter
+FROM tensorflow/tensorflow:1.13.1-py3-jupyter
 
 # Add meta data.
 LABEL description="Container to train and run the DeepParticleNet on systems without a GPU."
