@@ -10,7 +10,7 @@ RUN pip --no-cache-dir install \
 	cython \
 	dill \
 	imgaug \
-	jupyterlab \
+	jupyterlab==0.35 \
 	keras==2.1.3 \
 	opencv-python==3.3.0.9 \
 	scikit-image \
