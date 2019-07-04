@@ -54,14 +54,14 @@ class Model(MaskRCNN):
 
         # Call the training method of the super class.
         history = super().train(dataset_train, dataset_val,
-                      learning_rate=self.config.LEARNING_RATE,
-                      epochs=self.config.EPOCHS,
-                      layers=self.config.LAYERS,
-                      augmentation=self.config.AUGMENTATION,
-                      custom_callbacks=self.config.CUSTOM_CALLBACKS,
-                      no_augmentation_sources=self.config.NO_AUGMENTATION_SOURCES,
-                      save_best_only=save_best_only,
-                      monitored_quantity='val_loss')
+                                learning_rate=self.config.LEARNING_RATE,
+                                epochs=self.config.EPOCHS,
+                                layers=self.config.LAYERS,
+                                augmentation=self.config.AUGMENTATION,
+                                custom_callbacks=self.config.CUSTOM_CALLBACKS,
+                                no_augmentation_sources=self.config.NO_AUGMENTATION_SOURCES,
+                                save_best_only=save_best_only,
+                                monitored_quantity='val_loss')
 
         return history
 
