@@ -9,10 +9,18 @@ from dpn.detection import Detection
 
 
 class Dataset(MrcnnDataset):
+    """Dataset class to store images."""
+
     # Allow the user to define a class for the dataset, if there is only one.
     MONOCLASS = False  # e.g. MONOCLASS = "sphere"
 
     def __init__(self, class_map=None, config=None, dataset_name=None):
+        """Create and initialize a dataset object.
+
+        :param class_map: Map to reassign classes.
+        :param config: Config object.
+        :param dataset_name: name of the dataset
+        """
         super().__init__(class_map=class_map)
 
         if config is not None and dataset_name is not None:
@@ -20,6 +28,12 @@ class Dataset(MrcnnDataset):
             self.load_dataset_from_config(config, dataset_name)
 
     def load_dataset_from_config(self, config, dataset_name):
+        """Load a dataset based on a previously saved config.
+
+        :param config: Config object.
+        :param dataset_name: Name of the dataset.
+        :return: nothing
+        """
         dataset_name = dataset_name.lower()
 
         expected_dataset_names = ["train", "training", "val", "validation"]
@@ -39,12 +53,14 @@ class Dataset(MrcnnDataset):
         self.load_dataset(dataset_path, subset, limit=limit)
 
     def load_dataset(self, dataset_dir, subset, limit=None):
-        """Load a subset of a particle dataset.
+        """Load a subset of a dataset.
 
-        dataset_dir: Root directory of the dataset
-        subset: Subset to load, specified by the name of the sub-directory.
-
+        :param dataset_dir: Root directory of the dataset
+        :param subset: Subset to load, specified by the name of the sub-directory.
+        :param limit: Maximum number of samples to load.
+        :return: nothing
         """
+
         # Add classes.
         # Naming the dataset dataset, and the class particle
         self.add_class("dataset", 1, "sphere")
@@ -76,12 +92,15 @@ class Dataset(MrcnnDataset):
         self.prepare()
 
     def load_mask(self, image_id):
-        """Generate instance masks for an image.
-       Returns:
+        """Load instance masks of an image.
+
+        :param image_id: ID of the image.
+        :return:
         masks: A bool array of shape [height, width, instance count] with
             one mask per instance.
         class_ids: a 1D array of class IDs of the instance masks.
         """
+
         info = self.image_info[image_id]
         # Get mask directory from image path
         mask_dir = os.path.join(os.path.dirname(os.path.dirname(info['path'])), "masks")
@@ -109,7 +128,11 @@ class Dataset(MrcnnDataset):
         return masks, class_id_array
 
     def image_reference(self, image_id):
-        """Return the path of the image."""
+        """Return the path of the image file.
+
+        :param image_id: ID of the image.
+        :return: Image file path.
+        """
         info = self.image_info[image_id]
         if info["source"] == "dataset":
             return info["id"]
@@ -117,7 +140,11 @@ class Dataset(MrcnnDataset):
             super(Dataset, self).image_reference(image_id)
 
     def map_classname_id(self, classname_list):
-        """Converts a list of class names to a list of class ID."""
+        """Convert a list of class names to a list of class ID.
+
+        :param classname_list: List of classnames
+        :return: Numpy array of class IDs
+        """
 
         dictionary = dict(zip(self.class_names, self.class_ids))
         id_array = np.array(list(map(dictionary.get, classname_list)), dtype=np.int32)
@@ -125,7 +152,11 @@ class Dataset(MrcnnDataset):
         return id_array
 
     def get_annotations(self, image_id):
-        """Retrieve annotations for an image."""
+        """Retrieve annotations for an image.
+
+        :param image_id: Image ID
+        :return: List of annotations, i.e. the class of every object.
+        """
 
         info = self.image_info[image_id]
 
@@ -141,7 +172,10 @@ class Dataset(MrcnnDataset):
         return annotations
 
     def get_ground_truth(self):
-        """Retrieve the ground truth of the dataset."""
+        """Retrieve the ground truth of the dataset.
+
+        :return: List of ground truth detection objects.
+        """
 
         # Create a Results-object.
         ground_truth = Results()
