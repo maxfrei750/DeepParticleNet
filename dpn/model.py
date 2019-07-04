@@ -8,7 +8,17 @@ import inspect
 
 
 class Model(MaskRCNN):
+    """Offers MaskRCNN models that can be trained and used for the detection of primary particles."""
+
     def __init__(self, mode, config, model_dir):
+        """Create and initialize a model.
+
+        :param mode: Can be either "training" or "inference".
+        :param config: Config object, storing the config of the model.
+        :param model_dir: Directory, where the config, training logs and trained weights of the model are saved.
+        """
+
+        # Create MaskRCNN model.
         super().__init__(mode, config, model_dir)
 
         # If the user set USE_PRETRAINED_WEIGHTS in the config, then try to load a preset weight set. If that fails,
@@ -22,6 +32,14 @@ class Model(MaskRCNN):
                 self.load_weights(config.USE_PRETRAINED_WEIGHTS, by_name=True)
 
     def train(self, dataset_train, dataset_val, save_best_only=False):
+        """ Method to train the model.
+        
+        :param dataset_train: Dataset object storing the training data.
+        :param dataset_val: Dataset object storing the validation data.
+        :param save_best_only: When true, only the best models are saved in the log directory.
+        :return: Training history.
+        """
+
         # Save config in the log dir.
         self.config.save(self.log_dir)
 
@@ -48,6 +66,13 @@ class Model(MaskRCNN):
         return history
 
     def detect(self, image, verbose=0):
+        """ Find primary particles on an image.
+
+        :param image: Input image.
+        :param verbose: Verbose mode.
+        :return: Detection object that stores the bounding boxes, masks and classes of the detected primary particles.
+        """
+
         # Call the training method of the super class.
         results_dict_list = super().detect([image], verbose=verbose)
         results_dict = results_dict_list[0]
@@ -77,6 +102,12 @@ class Model(MaskRCNN):
         return Detection(image, masks, class_ids, bboxes, scores)
 
     def analyze_dataset(self, dataset):
+        """ Analyze a complete set of images.
+
+        :param dataset: Dataset object that stores the images to be analyzed.
+        :return: List of Detection objects.
+        """
+
         # Create a Results-object.
         results = Results()
 
