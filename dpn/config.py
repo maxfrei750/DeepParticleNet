@@ -5,6 +5,8 @@ import pathlib
 
 
 class Config(MrcnnConfig, Storable):
+    """Class to store DPN configurations."""
+
     # Dataset
     AUGMENTATION = None
     NO_AUGMENTATION_SOURCES = None
@@ -25,6 +27,8 @@ class Config(MrcnnConfig, Storable):
     EPOCHS = 10000
 
     def __init__(self):
+        """Create and initialize a configuration."""
+
         # Effective batch size
         self.BATCH_SIZE = self.IMAGES_PER_GPU * self.GPU_COUNT
 
@@ -38,9 +42,12 @@ class Config(MrcnnConfig, Storable):
 
         super().__init__()
 
-    # Method to save the config.
     def save(self, directory):
-        """Save Configuration values."""
+        """Save the configuration.
+
+        :param directory: Path of the directory to store the configuration.
+        :return: nothing
+        """
 
         # Gather attributes.
         attributes = []
@@ -60,10 +67,13 @@ class Config(MrcnnConfig, Storable):
         # Pickle config.
         super().save(os.path.join(directory, "config.pkl"))
 
-    # Method to load a config.
     @staticmethod
     def load(directory):
-        """Load Configuration values."""
+        """Load configuration.
+
+        :param directory: Directory to load the configuration from.
+        :return: Loaded configuration object.
+        """
 
         # Load pickled config.
         return super(Config, Config).load(os.path.join(directory, "config.pkl"))
