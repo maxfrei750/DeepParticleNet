@@ -7,9 +7,13 @@ import seaborn as sns
 
 
 def display_image(image, title="", figsize=(16, 16), ax=None):
-    """
-    title: (optional) Figure title
-    figsize: (optional) the size of the image
+    """Display an image.
+
+    :param image: Image to be displayed.
+    :param title: Title to be displayed (default: "").
+    :param figsize: Size of the figure in inches (default: (16, 16)).
+    :param ax: Axis to use for the plot (default: None, creates a new axis).
+    :return: nothing
     """
 
     # If no axis is passed, create one and automatically call show()
@@ -32,12 +36,15 @@ def display_image(image, title="", figsize=(16, 16), ax=None):
 
 
 def get_axis(rows=1, cols=1, size=32):
-    """Return a Matplotlib Axes array to be used in
-    all visualizations in the notebook. Provide a
-    central point to control graph sizes.
+    """Return a Matplotlib Axes array to be used in all visualizations in the notebook. Provide a central point to
+    control graph sizes. Adjust the size attribute to control how big to render images.
 
-    Adjust the size attribute to control how big to render images
+    :param rows: Number of subplot rows (default: 1).
+    :param cols: Number of subplot columns (default: 1).
+    :param size: Size of the subplots (default: 32).
+    :return: Axis object.
     """
+
     _, ax = plt.subplots(rows, cols, figsize=(size * cols, size * rows))
     return ax
 
@@ -48,11 +55,18 @@ def display_instance_outlines(image, masks,
                               alpha=1,
                               linestyle="-",
                               dpi=300):
+    """Display an image with overlayed outlines of the detected instances.
+
+    :param image: Original image.
+    :param masks: List of instance masks.
+    :param colors: List of colors for each object (default: None, use random colors).
+    :param linewidth: Width of the outlines (default: 0.5).
+    :param alpha: Opacity of the outlines (default: 1).
+    :param linestyle: Style of the outlines (default: "-").
+    :param dpi: Resolution of the output image (default: 300)
+    :return: Figure handle.
     """
-    masks: List of masks
-    figsize: (optional) the size of the image
-    colors: (optional) An array or colors to use with each object
-    """
+
     # Number of instances
     N = len(masks)
     if not N:
@@ -112,6 +126,23 @@ def plot_size_distributions(sizedistributions, captions,
                             histtype="step",
                             ncol=2,
                             **kwargs):
+    """Plot a list of SizeDistribution objects.
+
+    :param sizedistributions: List of SizeDistribution objects.
+    :param captions: List of captions. One for each SizeDistribution object.
+    :param density: Plot the probability density distribution (Default: True).
+    :param number_in_legend: Display the number of instances of each distribution in the legend (Default: True).
+    :param d_g_in_legend: Display the geometric mean of each distribution in the legend (Default: True).
+    :param sigma_g_in_legend: Display the geometric standard deviation of each distribution in the legend
+                              (Default: True).
+    :param bins: List of bin edges, number of bins or binning mode (Default: "auto").
+    :param alpha: Opacity of the histograms (Default: 1).
+    :param fill: Whether or not to fill the histograms (Default: True).
+    :param histtype: Histogram type. For further information, see matplotlib.pyplot.hist (Default: "step").
+    :param ncol: Number of columns of the legend (Default: 2).
+    :param kwargs: Additional arguments to be passed to the matplotlib.pyplot.hist function.
+    :return: Axis object, histogram counts, histogram bins.
+    """
     
     # Set a default for the color
     if "color" in kwargs:
