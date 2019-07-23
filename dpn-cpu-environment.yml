@@ -1,0 +1,19 @@
+# run: conda env create --file dpn-cpu-environment.yml
+name: dpn-cpu-env
+dependencies:
+- python>=3.4
+- anaconda
+- pip
+- numpy
+- scipy
+- Pillow
+- cython
+- matplotlib
+- scikit-image
+- h5py
+- IPython[all]
+- keras==2.1.3
+- pip:
+  - tensorflow==1.13.1
+  - imgaug
+  - opencv-python==3.3.0.9
