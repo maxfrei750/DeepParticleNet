@@ -1,7 +1,7 @@
 # run: conda env create --file dpn-gpu-environment.yml
 name: dpn-gpu-env
 dependencies:
-- python==3.6
+- python==3.5
 - anaconda
 - pip
 - numpy
