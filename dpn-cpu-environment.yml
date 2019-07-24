@@ -1,7 +1,7 @@
 # run: conda env create --file dpn-cpu-environment.yml
 name: dpn-cpu-env
 dependencies:
-- python>=3.4
+- python==3.5
 - anaconda
 - pip
 - numpy
