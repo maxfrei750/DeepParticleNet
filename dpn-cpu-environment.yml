@@ -12,8 +12,8 @@ dependencies:
 - scikit-image
 - h5py
 - IPython[all]
-- keras==2.1.3
+- tensorflow==1.13.1
 - pip:
-  - tensorflow==1.13.1
   - imgaug
+  - keras==2.1.3
   - opencv-python==3.3.0.9
