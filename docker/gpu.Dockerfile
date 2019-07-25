@@ -15,7 +15,8 @@ RUN pip --no-cache-dir install \
 	scikit-image \
 	pandas \
 	seaborn \
-	ipywidgets
+	ipywidgets \
+    wget
 
 # Install NodeJs to as preparation to install JupyterLab extensions.
 RUN curl -sL https://deb.nodesource.com/setup_12.x | bash -

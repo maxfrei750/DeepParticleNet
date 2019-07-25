@@ -15,7 +15,8 @@ RUN pip --no-cache-dir install \
 	opencv-python==3.3.0.9 \
 	scikit-image \
 	pandas \
-	seaborn
+	seaborn \
+    wget
 
 # Install NodeJs to as preparation to install JupyterLab extensions.
 RUN apt-get update && apt-get install -y --no-install-recommends \
