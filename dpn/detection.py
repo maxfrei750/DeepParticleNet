@@ -19,6 +19,9 @@ class Detection(Storable):
         :param class_ids: List of instance class IDs.
         :param bboxes: List of bounding boxes.
         :param scores: List of Detection scores.
+	:param data_set: Name of the dataset (default: None).
+	:param image_file_name: Filename of the image (default: None).
+	:param comment: Optional comment (default: None).
         """
 
         self.image = image
