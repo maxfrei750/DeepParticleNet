@@ -2,6 +2,7 @@ import numpy as np
 from scipy.spatial.distance import pdist
 from skimage.morphology import convex_hull_image
 from skimage.measure import find_contours
+from ..external.Mask_RCNN.mrcnn.utils import compute_ap
 
 
 def get_major_bbox_side_length(bboxes):
@@ -57,3 +58,22 @@ def get_maximum_feret_diameter(masks):
             print("Ignored mask, due to small size.")
 
     return max_feret_diameters
+
+
+def compute_average_precision(detection, ground_truth, iou_threshold=0.5):
+    bboxes_gt = np.asarray(ground_truth.bboxes)
+    class_ids_gt = np.asarray(ground_truth.class_ids)
+    masks_gt = np.asarray(ground_truth.masks)
+    masks_gt = np.moveaxis(masks_gt, 0, 2)
+    
+    bboxes_detection = np.asarray(detection.bboxes)
+    class_ids_detection = np.asarray(detection.class_ids)
+    masks_detection = np.asarray(detection.masks)
+    masks_detection = np.moveaxis(masks_detection, 0, 2)
+    scores_detection = np.asarray(detection.scores)
+    
+    average_precision, _, _, _ = compute_ap(bboxes_gt, class_ids_gt, masks_gt,
+                                            bboxes_detection, class_ids_detection, scores_detection, masks_detection,
+                                            iou_threshold=iou_threshold)
+    
+    return average_precision
