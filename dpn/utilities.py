@@ -6,7 +6,11 @@ from ..external.Mask_RCNN.mrcnn.utils import compute_ap
 
 
 def get_major_bbox_side_length(bboxes):
-    """Function to extract the largest dimensions of each bounding box of a set of bounding boxes."""
+    """Extract the largest dimensions of each bounding box of a set of bounding boxes.
+
+    :param bboxes: List or numpy array of bounding boxes.
+    :return: List of largest bounding box side lengths.
+    """
 
     bboxes = np.asarray(bboxes)
 
@@ -28,7 +32,11 @@ def get_major_bbox_side_length(bboxes):
 
 
 def calculate_equivalent_diameter(areas):
-    """Function to calculate the set of equivalent diameters of a set of areas."""
+    """Calculate the equivalent diameters of a list or numpy array of areas.
+
+    :param areas: List or numpy array of areas.
+    :return: List of equivalent diameters.
+    """
 
     areas = np.asarray(areas)
 
@@ -37,11 +45,12 @@ def calculate_equivalent_diameter(areas):
 
 
 def get_maximum_feret_diameter(masks):
-    """ Calculates the maximum feret diameter for each mask in masks.
-    masks: list of masks
-
+    """Calculates the maximum feret diameter for a list of masks.
     Based on: https://github.com/scikit-image/scikit-image/issues/2320#issuecomment-256057683
     See also:   https://github.com/scikit-image/scikit-image/pull/1780
+
+    :param masks: List of masks.
+    :return: List of maximum Feret diameters.
     """
 
     max_feret_diameters = []

@@ -4,7 +4,14 @@ from dpn.storable import Storable
 
 
 class SizeDistribution(Storable):
+    """Class to store sizedistributions and determine their characterstics."""
+
     def __init__(self, unit):
+        """Create and initialize a SizeDistribution object.
+
+        :param unit: Either "m" or "px". Unit of the sizes the sizedistribution is based on.
+        """
+
         self.sizes = np.uint32([])
         unit = unit.lower()
 
@@ -12,21 +19,29 @@ class SizeDistribution(Storable):
         assert unit in ["px", "m"], "Expected unit to be \"px\" or \"m\"."
         self.unit = unit
 
-    # Dependant attributes
     @property
     def geometric_mean(self):
+        """Geometric mean of the SizeDistribution object."""
         return gmean(self.sizes)
 
     @property
     def geometric_standard_deviation(self):
+        """Geometric standard deviation of the SizeDistribution object."""
         return np.exp(np.std(np.log(self.sizes)))
 
     @property
     def number_of_particles(self):
+        """Number of particles of the SizeDistribution object."""
         return len(self.sizes)
 
     # Methods
     def concatenate(size_distributions):
+        """Concatenate a list SizeDistribution objects.
+
+        :param size_distributions: List of SizeDistribution objects.
+        :return: nothing
+        """
+
         # Assert that all the size distributions have the same unit.
         units = [size_distribution.unit for size_distribution in size_distributions]
         assert all(x == units[0] for x in units), "You cannot concatenate sizedistributions with different units."
@@ -41,14 +56,37 @@ class SizeDistribution(Storable):
         return size_distribution_new
 
     def to_meter(self, scalingfactor_meterperpixel):
+        """Convert a SizeDistribution object to meters using a given scaling factor.
+
+        :param scalingfactor_meterperpixel: Scaling factor.
+        :return: nothing
+        """
+
         self.sizes = self.sizes * scalingfactor_meterperpixel
         self.unit = "m"
 
     def to_pixel(self, scalingfactor_meterperpixel):
+        """Convert a SizeDistribution object to pixels using a given scaling factor.
+
+        :param scalingfactor_meterperpixel: Scaling factor.
+        :return: nothing
+        """
+
         self.sizes = self.sizes / scalingfactor_meterperpixel
         self.unit = "px"
 
     def compare(self, ground_truth, do_return_errors=False, do_print_output=True):
+        """Compare two SizeDistribution objects.
+
+        :param ground_truth: SizeDistribution object representing the ground truth.
+        :param do_return_errors: If true, then calculate and return the errors of the geometric mean, the geometric
+                                 standard deviation and the number of instances (default: False).
+        :param do_print_output: If true, then calculate and print the errors of the geometric mean, the geometric
+                                standard deviation and the number of instances (default: True).
+        :return: If do_return_errors=True, return the errors of the geometric mean, the geometric standard deviation and
+                 the number of instances
+        """
+
         # Assert that the size distributions have the same unit.
         assert self.unit == ground_truth.unit, "You cannot concatenate sizedistributions with different units."
 
