@@ -4,15 +4,19 @@ from itertools import compress
 from skimage.segmentation import clear_border
 from skimage.morphology import binary_erosion
 import matplotlib.pyplot as plt
+from .storable import Storable
 
 
-class Detection:
-    def __init__(self, image, masks, class_ids, bboxes, scores):
+class Detection(Storable):
+    def __init__(self, image, masks, class_ids, bboxes, scores, data_set=None, image_file_name=None, comment=None):
         self.image = image
         self.masks = masks
         self.class_ids = class_ids
         self.bboxes = bboxes
         self.scores = scores
+        self.data_set = data_set
+        self.image_file_name = image_file_name
+        self.comment = comment
 
     # Dependant properties
     @property
