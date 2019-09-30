@@ -2,7 +2,7 @@ import numpy as np
 from scipy.spatial.distance import pdist
 from skimage.morphology import convex_hull_image
 from skimage.measure import find_contours
-from ..external.Mask_RCNN.mrcnn.utils import compute_ap
+from external.Mask_RCNN.mrcnn.utils import compute_ap
 
 
 def get_major_bbox_side_length(bboxes):
