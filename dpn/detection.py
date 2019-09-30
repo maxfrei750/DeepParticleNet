@@ -8,10 +8,9 @@ from .storable import Storable
 
 
 class Detection(Storable):
-    def __init__(self, image, masks, class_ids, bboxes, scores, data_set=None, image_file_name=None, comment=None):
     """Class to store Detection objects."""
-
-    def __init__(self, image, masks, class_ids, bboxes, scores):
+    
+    def __init__(self, image, masks, class_ids, bboxes, scores, data_set=None, image_file_name=None, comment=None):
         """Create and initialize a Detection object.
 
         :param image: Original image, i.e. without any kind of annotation.
