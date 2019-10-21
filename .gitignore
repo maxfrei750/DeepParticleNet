@@ -111,4 +111,6 @@ datasets/
 
 logs/
 
+pretrained_weights/
+
 *.h5
