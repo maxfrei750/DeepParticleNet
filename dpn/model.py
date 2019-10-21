@@ -5,6 +5,9 @@ import numpy as np
 from keras.callbacks import CSVLogger, TerminateOnNaN
 import os
 import inspect
+import urllib.request
+import shutil
+from pathlib import Path
 
 
 class Model(MaskRCNN):
@@ -125,12 +128,64 @@ class Model(MaskRCNN):
 
         return results
 
-    def load_pretrained_weights(self, weight_name, verbose=False):
-        module_dir = os.path.dirname(os.path.abspath(inspect.stack()[0][1]))
-        model_dir = os.path.join(module_dir, "..", "models")
+    def get_pretrained_model_dir(self):
+        """Get path of the directory, where the pretrained models are stored.
 
+        :return: Path of the directory storing the pretrained models.
+        """
+
+        module_dir = os.path.dirname(os.path.abspath(inspect.stack()[0][1]))
+        model_dir = os.path.join(module_dir, "..", "pretrained_models")
+
+        return model_dir     
+
+    def download_pretrained_weights(self, weight_name, verbose=True):
+        """Download a set of pretrained weights.
+
+        :param weight_name: Name of the pretrained weight set to download.
+        :param verbose: Verbosity mode.
+        :return: nothing
+        """
+        model_base_url = "https://github.com/maxfrei750/DeepParticleNet/releases/download/v1.0/"
+
+        # Get directory of to store the pretrained model.
+        model_dir = self.get_pretrained_model_dir()
+
+        # Input checking.
         weight_name = weight_name.lower()
-        expected_weight_names = ["resnet50_coco", "resnet101_coco", "resnet50_imagenet"]
+        expected_weight_names = ["resnet101_coco", "resnet50_imagenet", "resnet50_mpac"]
+
+        assert weight_name in expected_weight_names, \
+            "Expected weight_name to be one of the following: {}.".format(expected_weight_names)
+
+        weight_path = os.path.abspath(os.path.join(model_dir, weight_name+".h5"))
+        weight_url = model_base_url + weight_name+".h5"
+
+        if verbose:
+            print("Starting donwload of weights from: "+weight_url)
+            print("Saving weights at: "+weight_path)
+
+        # Download the desired weights.
+        with urllib.request.urlopen(weight_url) as response, open(weight_path, 'wb') as output:
+            shutil.copyfileobj(response, output)
+
+        if verbose:
+            print("Download finished.")
+
+    def load_pretrained_weights(self, weight_name, verbose=False):
+        """ Load a set of pretrained weights.
+
+        :param weight_name: Name of the set of pretrained weights.
+        :param verbose: Verbosity mode.
+        :return: nothing
+        """
+
+        # Get directory of to store the pretrained model.
+        model_dir = self.get_pretrained_model_dir()
+
+        # Input checking.
+        weight_name = weight_name.lower()
+        expected_weight_names = ["resnet50_coco", "resnet101_coco", "resnet50_imagenet", "resnet50_mpac"]
 
         assert weight_name in expected_weight_names, \
             "Expected weight_name to be one of the following: {}.".format(expected_weight_names)
@@ -141,6 +196,12 @@ class Model(MaskRCNN):
                 print("Using resnet101_coco weights file but loading only the resnet50 part.")
 
         weight_path = os.path.abspath(os.path.join(model_dir, weight_name+".h5"))
+
+        # Download the weightfile if it is not available yet.
+        weight_file = Path(weight_path)
+
+        if not weight_file.is_file():
+            self.download_pretrained_weights(weight_name)
 
         if verbose:
             print("Loading weights from: "+weight_path)
