@@ -146,7 +146,8 @@ class Model(MaskRCNN):
         :param verbose: Verbosity mode.
         :return: nothing
         """
-        model_base_url = "https://github.com/maxfrei750/DeepParticleNet/releases/download/v1.0/"
+        # model_base_url = "https://github.com/maxfrei750/DeepParticleNet/releases/download/v1.0/"
+        model_base_url = "https://github.com/maxfrei750/dummy/releases/download/v0.1.0/"
 
         # Get directory of to store the pretrained model.
         model_dir = self.get_pretrained_model_dir()
