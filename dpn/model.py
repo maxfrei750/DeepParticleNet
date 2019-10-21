@@ -95,9 +95,10 @@ class Model(MaskRCNN):
         # Get number of instances
         number_of_instances = len(class_ids)
 
-        # Convert masks to list of masks.
-        masks = np.split(masks, number_of_instances, axis=2)
-        masks = [np.squeeze(mask) for mask in masks]
+        if number_of_instances > 0:
+            # Convert masks to list of masks.
+            masks = np.split(masks, number_of_instances, axis=2)
+            masks = [np.squeeze(mask) for mask in masks]
 
         return Detection(image, masks, class_ids, bboxes, scores)
 
