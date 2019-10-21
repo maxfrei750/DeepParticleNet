@@ -214,9 +214,15 @@ class Model(MaskRCNN):
         if verbose:
             print("Loading weights from: "+weight_path)
 
-        # Exclude the last layers because they require a matching number of classes.
+
+        if self.config.USE_PRETRAINED_WEIGHTS in ["coco", "imagenet"]:
+            # Exclude the last layers because they require a matching number of classes.
+            exclude=["mrcnn_class_logits", "mrcnn_bbox_fc", "mrcnn_bbox", "mrcnn_mask"]
+        else:
+            exclude=None
+
         self.load_weights(
             weight_path,
             by_name=True,
-            exclude=["mrcnn_class_logits", "mrcnn_bbox_fc", "mrcnn_bbox", "mrcnn_mask"]
+            exclude=exclude
         )
