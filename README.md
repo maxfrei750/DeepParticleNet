@@ -31,7 +31,7 @@ The utilized convolutional neural network was inspired by the Mask R-CNN archite
 ## Citation
 If you use this repository for a publication, then please cite it using the following bibtex-entry:
 ```
-@misc{Frei.2019,
+@article{Frei.2019,
     author = {Frei, Max and Kruis, Frank Einar},
     year = {2019},
     title = {Image-Based Size Analysis of Agglomerated and Partially Sintered Particles via Convolutional Neural Networks},
