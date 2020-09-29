@@ -9,7 +9,7 @@
 This repository is a toolbox for the easy, deep learning-based primary particle size analysis of agglomerated, aggregated, partially sintered or simply occluded particles. It accompanies the following publication:
 
 [Image-Based Size Determination of Agglomerated 
-and Partially Sintered Particles via Convolutional Neural Networks](ttps://doi.org/10.1016/j.powtec.2019.10.020)
+and Partially Sintered Particles via Convolutional Neural Networks](https://doi.org/10.1016/j.powtec.2019.10.020)
 
 The utilized convolutional neural network was inspired by the Mask R-CNN architecture, developed by [He et al.](https://arxiv.org/abs/1703.06870) and is based on an implementation of [Abdulla](https://github.com/matterport/Mask_RCNN), realized with Keras and TensorFlow, controlled by Python.
 
