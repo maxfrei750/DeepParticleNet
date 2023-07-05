@@ -1,8 +1,13 @@
+# :exclamation: ATTENTION :exclamation:
+
+This code is no longer maintained and has been superseeded by the [paddle](https://github.com/maxfrei750/paddle) toolbox.
+
+----------------
+
 [![Paper (Powder Technology)](https://img.shields.io/badge/DOI-10.1016/j.powtec.2019.10.020-blue.svg)](https://doi.org/10.1016/j.powtec.2019.10.020)
 [![Paper (arXiv)](https://img.shields.io/badge/arXiv-1907.05112-b31b1b.svg)](https://arxiv.org/abs/1907.05112)
 [![License](https://img.shields.io/github/license/maxfrei750/DeepParticleNet.svg)](https://github.com/maxfrei750/DeepParticleNet/blob/master/LICENSE) 
 [![Docker Cloud Automated build](https://img.shields.io/docker/cloud/automated/maxfrei750/deepparticlenet.svg)](https://hub.docker.com/r/maxfrei750/deepparticlenet)
-[![Docker Cloud Build Status](https://img.shields.io/docker/cloud/build/maxfrei750/deepparticlenet.svg)](https://hub.docker.com/r/maxfrei750/deepparticlenet)
 
 # DeepParticleNet
 
